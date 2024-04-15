@@ -39,6 +39,7 @@ _REGISTRY: dict[str, type[Extension]] = {}
 # What you get with Markdown(extensions=None). The remaining ones change the
 # meaning of characters people use in ordinary prose, so they are opt-in.
 DEFAULT_EXTENSIONS = (
+    "tables",
     "strikethrough",
     "tasklists",
     "autolink",
@@ -131,11 +132,13 @@ from .marks import (  # noqa: E402
     SubscriptExtension,
     SuperscriptExtension,
 )
+from .tables import TablesExtension  # noqa: E402
 from .tasklists import TaskListsExtension  # noqa: E402
 
 # Order matters in one place: "sub" has to come after "strikethrough" to
 # claim the single tilde.
 for _cls in (
+    TablesExtension,
     StrikethroughExtension,
     TaskListsExtension,
     AutolinkExtension,
