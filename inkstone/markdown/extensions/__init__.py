@@ -43,6 +43,7 @@ DEFAULT_EXTENSIONS = (
     "strikethrough",
     "tasklists",
     "autolink",
+    "footnotes",
 )
 
 
@@ -126,6 +127,7 @@ def replace_in_text(
 
 # The modules below import Extension from here, hence the late imports.
 from .autolink import AutolinkExtension  # noqa: E402
+from .footnotes import FootnotesExtension  # noqa: E402
 from .marks import (  # noqa: E402
     MarkExtension,
     StrikethroughExtension,
@@ -142,6 +144,7 @@ for _cls in (
     StrikethroughExtension,
     TaskListsExtension,
     AutolinkExtension,
+    FootnotesExtension,
     MarkExtension,
     SubscriptExtension,
     SuperscriptExtension,
