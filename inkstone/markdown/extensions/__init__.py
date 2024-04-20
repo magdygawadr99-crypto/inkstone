@@ -44,6 +44,8 @@ DEFAULT_EXTENSIONS = (
     "tasklists",
     "autolink",
     "footnotes",
+    "attrs",
+    "toc",
 )
 
 
@@ -126,6 +128,7 @@ def replace_in_text(
 
 
 # The modules below import Extension from here, hence the late imports.
+from .attrs import AttrsExtension  # noqa: E402
 from .autolink import AutolinkExtension  # noqa: E402
 from .footnotes import FootnotesExtension  # noqa: E402
 from .marks import (  # noqa: E402
@@ -136,6 +139,7 @@ from .marks import (  # noqa: E402
 )
 from .tables import TablesExtension  # noqa: E402
 from .tasklists import TaskListsExtension  # noqa: E402
+from .toc import TocExtension  # noqa: E402
 
 # Order matters in one place: "sub" has to come after "strikethrough" to
 # claim the single tilde.
@@ -145,6 +149,8 @@ for _cls in (
     TaskListsExtension,
     AutolinkExtension,
     FootnotesExtension,
+    AttrsExtension,
+    TocExtension,
     MarkExtension,
     SubscriptExtension,
     SuperscriptExtension,
