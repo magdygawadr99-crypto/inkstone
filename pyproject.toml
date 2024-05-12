@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inkstone"
+description = "A small static site generator with no dependencies"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dynamic = ["version"]
+keywords = ["static site generator", "markdown", "blog"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Internet :: WWW/HTTP :: Site Management",
+    "Topic :: Text Processing :: Markup :: Markdown",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[tool.setuptools.dynamic]
+version = { attr = "inkstone.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["inkstone*"]
+
+[tool.setuptools.package-data]
+inkstone = ["templates/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
