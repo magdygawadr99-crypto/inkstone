@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul class="posts">
+  {% for post in site.posts %}
+  <li>
+    <time datetime="{{ post.date | date('%Y-%m-%d') }}">{{ post.date | date('%Y-%m-%d') }}</time>
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </li>
+  {% else %}
+  <li>Nothing here yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
