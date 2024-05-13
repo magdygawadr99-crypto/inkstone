@@ -1,10 +1,20 @@
-- [x] block parser
-- [x] inline parser
-- [ ] emphasis: the `*foo**bar*` family still comes out wrong, redo with the
-      delimiter stack from the spec
-- [ ] link reference definitions
-- [ ] html blocks (7 start conditions, ugh)
-- [ ] footnotes
-- [ ] tables
-- [ ] some kind of templates. string.Template to start with?
-- [ ] front matter
+## next
+
+- [ ] front matter properly. the `key: value` hack falls over on lists and on
+      titles with a colon in them
+- [ ] config: a typo in inkstone.toml is a KeyError with a traceback
+- [ ] sections, tags
+- [ ] rss
+- [ ] pagination
+
+## later
+
+- [ ] syntax highlighting
+- [ ] serve + rebuild on change
+- [ ] only rebuild what changed
+- [ ] search?
+
+## done
+
+- [x] markdown: blocks, inlines, tables, footnotes, task lists
+- [x] templates: inheritance, includes, macros, filters
