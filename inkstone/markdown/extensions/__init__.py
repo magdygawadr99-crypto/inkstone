@@ -45,6 +45,7 @@ DEFAULT_EXTENSIONS = (
     "autolink",
     "footnotes",
     "deflists",
+    "admonitions",
     "attrs",
     "toc",
 )
@@ -129,6 +130,7 @@ def replace_in_text(
 
 
 # The modules below import Extension from here, hence the late imports.
+from .admonitions import AdmonitionsExtension  # noqa: E402
 from .attrs import AttrsExtension  # noqa: E402
 from .autolink import AutolinkExtension  # noqa: E402
 from .deflists import DefListsExtension  # noqa: E402
@@ -152,6 +154,7 @@ for _cls in (
     AutolinkExtension,
     FootnotesExtension,
     DefListsExtension,
+    AdmonitionsExtension,
     AttrsExtension,
     TocExtension,
     MarkExtension,
