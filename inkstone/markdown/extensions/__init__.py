@@ -130,6 +130,7 @@ def replace_in_text(
 
 
 # The modules below import Extension from here, hence the late imports.
+from .abbr import AbbrExtension  # noqa: E402
 from .admonitions import AdmonitionsExtension  # noqa: E402
 from .attrs import AttrsExtension  # noqa: E402
 from .autolink import AutolinkExtension  # noqa: E402
@@ -141,6 +142,7 @@ from .marks import (  # noqa: E402
     SubscriptExtension,
     SuperscriptExtension,
 )
+from .smart import SmartExtension  # noqa: E402
 from .tables import TablesExtension  # noqa: E402
 from .tasklists import TaskListsExtension  # noqa: E402
 from .toc import TocExtension  # noqa: E402
@@ -156,7 +158,9 @@ for _cls in (
     DefListsExtension,
     AdmonitionsExtension,
     AttrsExtension,
+    SmartExtension,
     TocExtension,
+    AbbrExtension,
     MarkExtension,
     SubscriptExtension,
     SuperscriptExtension,
