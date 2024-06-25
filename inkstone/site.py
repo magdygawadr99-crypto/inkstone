@@ -4,7 +4,6 @@ Still one file and still rebuilds everything every time.
 """
 from __future__ import annotations
 
-import os
 import shutil
 import tomllib
 from datetime import date
@@ -32,7 +31,7 @@ def load_config(src: Path) -> dict:
 
 def load_page(path: Path, content: Path) -> dict:
     meta, body = frontmatter.parse(path.read_text(encoding="utf-8"), path=path)
-    rel = os.path.relpath(path, content)
+    rel = path.relative_to(content)
     file_date, stem = date_from_filename(path.name)
     when = meta.get("date") or file_date
     try:
@@ -45,11 +44,11 @@ def load_page(path: Path, content: Path) -> dict:
         tags = [t.strip() for t in tags.split(",") if t.strip()]
     return {
         "path": path,
-        "source": rel,
-        "section": os.path.dirname(rel),
+        "source": rel.as_posix(),
+        "section": rel.parent.as_posix().strip("."),
         "title": meta.get("title") or stem.replace("-", " ").title(),
         "slug": slug,
-        "url": "/" + os.path.join(os.path.dirname(rel), slug) + "/",
+        "url": page_url(rel, slug),
         "date": when,
         "tags": tags,
         "draft": bool(meta.get("draft")),
@@ -58,6 +57,14 @@ def load_page(path: Path, content: Path) -> dict:
         "body": body,
         "content": "",
     }
+
+
+def page_url(rel: Path, slug: str) -> str:
+    # rel is a file system path, the result is a URL. This is the one place
+    # where the first turns into the second. os.path.join gave me
+    # "/posts\\hello/" on Windows and nothing complained until the browser did.
+    parts = [part for part in rel.parent.parts if part not in ("", ".")]
+    return "/" + "/".join(parts + [slug]) + "/"
 
 
 def build(src: Path, out: Path, drafts: bool = False) -> int:
