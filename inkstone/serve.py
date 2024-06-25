@@ -48,7 +48,9 @@ def serve(src: Path, out: Path, host="127.0.0.1", port=8000, drafts=False):
     config = src / "inkstone.toml"
     if config.exists():
         watched.append(config)
-    watcher = Watcher(watched, callback=rebuild, debounce=0)
+    # my editor writes a file in two or three steps; without the debounce
+    # every save was that many rebuilds
+    watcher = Watcher(watched, callback=rebuild, debounce=0.3)
     watcher.start()
 
     handler = functools.partial(_Handler, directory=str(out))
