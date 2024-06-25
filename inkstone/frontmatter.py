@@ -102,7 +102,7 @@ def _split(text: str, path) -> tuple[str | None, str, str | None, int]:
         text = text[1:]
     end = text.find("\n")
     first = text if end == -1 else text[:end]
-    fence = first.rstrip(" \t")
+    fence = first.rstrip(" \t\r")
     if fence in _FENCES:
         return _split_fenced(text, fence, path)
     if _JSON_OPENING.match(text):
@@ -118,7 +118,7 @@ def _split_fenced(text: str, fence: str, path):
     while 0 < pos < len(text):
         end = text.find("\n", pos)
         following = len(text) if end == -1 else end + 1
-        if text[pos:following].rstrip(" \t\n") in closers:
+        if text[pos:following].rstrip(" \t\r\n") in closers:
             return text[start:pos], text[following:], fmt, 2
         pos = following
     raise _error(
