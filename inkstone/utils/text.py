@@ -258,6 +258,49 @@ def reading_time(text: str, *, wpm: int = 220, cjk_cpm: int = 450) -> int:
     return max(1, math.ceil(words / wpm + ideographs / cjk_cpm))
 
 
+_SMALL_WORDS = frozenset(
+    "a an and as at but by en for if in nor of on or per the to v vs via".split()
+)
+_WORD_PARTS = re.compile(r"^(\W*)(.*?)(\W*)$", re.S)
+
+
+def titlecase(text: str) -> str:
+    """Capitalise a headline the way a style guide would.
+
+    Small words (of, the, and...) stay lower case unless they come first,
+    last or right after a colon. Words that already contain capitals
+    (iPhone, HTML) or look like file names and URLs are left alone.
+    """
+    if text.isupper():
+        text = text.lower()
+    words = text.split()
+    out = []
+    force = True
+    for index, word in enumerate(words):
+        last = index == len(words) - 1
+        out.append(_title_word(word, force, last))
+        force = word.endswith((":", "!", "?", "—"))
+    return " ".join(out)
+
+
+def _title_word(word: str, first: bool, last: bool) -> str:
+    lead, core, trail = _WORD_PARTS.match(word).groups()
+    if not core or "." in core or "/" in core or "@" in core:
+        return word
+    if core[1:] != core[1:].lower():
+        # capitals inside a word are deliberate
+        return word
+    parts = core.split("-")
+    cased = []
+    for index, part in enumerate(parts):
+        edge = (first and index == 0) or (last and index == len(parts) - 1)
+        if part.lower() in _SMALL_WORDS and not edge:
+            cased.append(part.lower())
+        else:
+            cased.append(part[:1].upper() + part[1:])
+    return lead + "-".join(cased) + trail
+
+
 def pluralize(
     count: int, singular: str, plural: str | None = None, *, show_count: bool = True
 ) -> str:
@@ -325,3 +368,49 @@ def wrap(
         for paragraph in paragraphs
     ]
     return "\n\n".join(filled)
+
+
+def humanize_bytes(size: int) -> str:
+    """1536 -> "1.5 KB". Units are powers of 1024."""
+    sign = "-" if size < 0 else ""
+    value = float(abs(size))
+    units = ("B", "KB", "MB", "GB", "TB")
+    for unit in units:
+        # 1023.5 and up would round to "1024 KB"
+        if value < 1023.5 or unit == units[-1]:
+            break
+        value /= 1024
+    if unit == "B":
+        return f"{sign}{int(value)} B"
+    if value < 9.95:
+        return f"{sign}{value:.1f} {unit}"
+    return f"{sign}{value:.0f} {unit}"
+
+
+def humanize_duration(seconds: float) -> str:
+    """0.85 -> "850 ms", 1.5 -> "1.50 s", 125 -> "2 min 5 s"."""
+    if seconds < 0:
+        return "-" + humanize_duration(-seconds)
+    if 0 < seconds < 0.001:
+        return "<1 ms"
+    if seconds < 0.9995:
+        return f"{seconds * 1000:.0f} ms"
+    if seconds < 9.995:
+        return f"{seconds:.2f} s"
+    if seconds < 59.95:
+        return f"{seconds:.1f} s"
+    minutes, secs = divmod(round(seconds), 60)
+    if minutes < 60:
+        return f"{minutes} min {secs} s" if secs else f"{minutes} min"
+    hours, minutes = divmod(minutes, 60)
+    return f"{hours} h {minutes} min" if minutes else f"{hours} h"
+
+
+def ordinal(number: int) -> str:
+    """1 -> "1st", 22 -> "22nd", 113 -> "113th"."""
+    tail = abs(number) % 100
+    if 10 <= tail <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(tail % 10, "th")
+    return f"{number}{suffix}"
