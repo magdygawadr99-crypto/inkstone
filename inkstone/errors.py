@@ -24,6 +24,10 @@ class InkstoneError(Exception):
         return where + self.message
 
 
+class ConfigError(InkstoneError):
+    pass
+
+
 class ContentError(InkstoneError):
     """Something wrong with a source file (bad front matter, bad date...)."""
 
