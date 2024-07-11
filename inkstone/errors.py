@@ -34,3 +34,7 @@ class ContentError(InkstoneError):
 
 class BuildError(InkstoneError):
     pass
+
+
+class PluginError(InkstoneError):
+    pass
