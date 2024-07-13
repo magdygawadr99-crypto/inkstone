@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{# Pages carrying one term: /tags/python/. #}
+{% block title %}{{ taxonomy.singular | title }}: {{ term.name }}{% if paginator is defined and paginator and paginator.page > 1 %} (page {{ paginator.page }}){% endif %} · {{ site.title }}{% endblock %}
+
+{% block content %}
+{% import "partials/macros.html" as m %}
+{% include "partials/breadcrumbs.html" %}
+<header class="page-header">
+  <p class="page-header__kicker">{{ taxonomy.singular | title }}</p>
+  <h1 class="page-header__title">{{ term.name }}</h1>
+  <p class="page-header__count">
+    {{ m.count(term.count, "post") }}
+    · <a href="{{ url_for(taxonomy.url) }}">all {{ taxonomy.name }}</a>
+  </p>
+</header>
+
+<section class="post-list" aria-label="Posts">
+  {% if pages %}
+  {% for post in pages %}
+  {% include "partials/post_card.html" %}
+  {% endfor %}
+  {% else %}
+  <p class="empty">Nothing is filed under this {{ taxonomy.singular }} yet.</p>
+  {% endif %}
+</section>
+
+{% include "partials/pagination.html" %}
+{% endblock %}

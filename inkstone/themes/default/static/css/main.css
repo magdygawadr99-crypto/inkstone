@@ -1,0 +1,2263 @@
+/*
+ * inkstone default theme.
+ *
+ * Order: tokens, base, layout, header, then components roughly in the order
+ * they show up on a page, utilities last. No build step; edit and reload.
+ */
+
+/* Tokens */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #fbfaf7;
+  --bg-raised: #ffffff;
+  --bg-sunken: #f2f0ea;
+  --text: #23211e;
+  --text-muted: #6b665e;
+  --border: #dedad1;
+  --border-strong: #c2bdb1;
+  --accent: #a5371f;
+  --accent-hover: color-mix(in srgb, var(--accent) 75%, var(--text));
+  --accent-soft: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  --mark: #fbe9a6;
+  --code-bg: #f3f1eb;
+  --code-text: #2b2925;
+  --shadow: 0 1px 2px rgb(35 33 30 / 0.06), 0 4px 16px rgb(35 33 30 / 0.08);
+
+  --note: #2c6a96;
+  --tip: #38734a;
+  --warning: #8f6200;
+  --danger: #b0281f;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    "Noto Sans", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+    Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  --measure: 40rem;
+  --wide: 68rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --radius: 6px;
+  --radius-small: 3px;
+
+  --step--1: clamp(0.83rem, 0.81rem + 0.1vw, 0.89rem);
+  --step-0: 1rem;
+  --step-1: clamp(1.13rem, 1.08rem + 0.22vw, 1.25rem);
+  --step-2: clamp(1.27rem, 1.17rem + 0.47vw, 1.56rem);
+  --step-3: clamp(1.42rem, 1.26rem + 0.8vw, 1.95rem);
+  --step-4: clamp(1.6rem, 1.34rem + 1.3vw, 2.44rem);
+
+  --header-height: 3.5rem;
+}
+
+/* The dark palette is written out twice: once for "the system says dark and
+   the reader has not chosen", once for an explicit choice. Keep them in sync. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17181b;
+    --bg-raised: #1f2125;
+    --bg-sunken: #121316;
+    --text: #e4e1da;
+    --text-muted: #a19c93;
+    --border: #33363c;
+    --border-strong: #4a4e56;
+    --accent: #ef8a6d;
+    --mark: #6b5a1c;
+    --code-bg: #1f2125;
+    --code-text: #dedbd3;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px rgb(0 0 0 / 0.35);
+    --note: #7fb6dc;
+    --tip: #86c39a;
+    --warning: #dcb154;
+    --danger: #f08b82;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #17181b;
+  --bg-raised: #1f2125;
+  --bg-sunken: #121316;
+  --text: #e4e1da;
+  --text-muted: #a19c93;
+  --border: #33363c;
+  --border-strong: #4a4e56;
+  --accent: #ef8a6d;
+  --mark: #6b5a1c;
+  --code-bg: #1f2125;
+  --code-text: #dedbd3;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px rgb(0 0 0 / 0.35);
+  --note: #7fb6dc;
+  --tip: #86c39a;
+  --warning: #dcb154;
+  --danger: #f08b82;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 1.5rem;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 650;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+p,
+ul,
+ol,
+dl,
+figure,
+blockquote,
+pre,
+table {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration-thickness: 0.12em;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* One focus style for everything. Mouse clicks do not trigger :focus-visible. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-small);
+}
+
+/* #main gets focus from the skip link; it should not draw a box around the
+   whole page. */
+#main:focus {
+  outline: none;
+}
+
+/* Layout */
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--measure));
+  margin-inline: auto;
+}
+
+.container--wide {
+  width: min(100% - 2 * var(--gutter), var(--wide));
+}
+
+.site-main {
+  flex: 1;
+  padding-block: clamp(1.5rem, 4vw, 3rem) clamp(3rem, 8vw, 5rem);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: 0;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 0 0 var(--radius) var(--radius);
+  text-decoration: none;
+  transform: translateY(-110%);
+  transition: transform 0.15s ease-out;
+}
+
+.skip-link:focus {
+  color: var(--bg);
+  transform: none;
+}
+
+/* Header and navigation */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  min-height: var(--header-height);
+  padding-block: 0.5rem;
+}
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-right: auto;
+  color: var(--text);
+  font-weight: 700;
+  font-size: var(--step-1);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.site-header__brand:hover {
+  color: var(--accent);
+}
+
+.site-header__mark {
+  flex: none;
+}
+
+.site-header__mark-stone {
+  fill: currentColor;
+}
+
+.site-header__mark-well {
+  fill: var(--bg);
+}
+
+.site-header__mark-ink {
+  fill: var(--accent);
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+}
+
+.site-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav__link {
+  display: block;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  font-weight: 550;
+  text-decoration: none;
+}
+
+.site-nav__link:hover {
+  background: var(--bg-sunken);
+  color: var(--text);
+}
+
+.site-nav__link--current {
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--accent);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* Second level, for menu entries with children. No script: the list opens
+   on hover and whenever focus is inside it. */
+.site-nav__item {
+  position: relative;
+}
+
+.site-nav__sub {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  min-width: 11rem;
+  margin: 0;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow);
+  list-style: none;
+}
+
+.site-nav__item--parent:hover > .site-nav__sub,
+.site-nav__item--parent:focus-within > .site-nav__sub {
+  display: block;
+}
+
+.site-nav__sub .site-nav__link[aria-current] {
+  color: var(--accent);
+}
+
+.site-nav__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-toggle,
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--text-muted);
+}
+
+.nav-toggle:hover,
+.theme-toggle:hover {
+  background: var(--bg-sunken);
+  color: var(--text);
+}
+
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle__icon,
+.theme-toggle__icon {
+  display: inline-flex;
+}
+
+.nav-toggle__icon--close,
+.nav-toggle[aria-expanded="true"] .nav-toggle__icon--open {
+  display: none;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__icon--close {
+  display: inline-flex;
+}
+
+/* The toggle shows the theme you would switch to: a moon while it is light. */
+.theme-toggle__icon--light {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle__icon--light {
+    display: inline-flex;
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle__icon--dark {
+    display: none;
+  }
+}
+
+:root[data-theme="dark"] .theme-toggle__icon--light {
+  display: inline-flex;
+}
+
+:root[data-theme="dark"] .theme-toggle__icon--dark {
+  display: none;
+}
+
+/* Small screens: the menu folds behind the toggle, but only when nav.js is
+   running. Without it the links just wrap under the title. */
+@media (max-width: 47.99em) {
+  /* no room for fly-outs: children are simply listed, indented */
+  .site-nav__sub {
+    display: block;
+    position: static;
+    min-width: 0;
+    padding: 0 0 0 1rem;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .js .nav-toggle {
+    display: inline-grid;
+  }
+
+  .js .site-nav {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding-block: 0.5rem 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .js .site-nav[data-open] {
+    display: flex;
+  }
+
+  .js .site-nav__list {
+    flex-direction: column;
+  }
+
+  .js .site-nav__link {
+    padding: 0.55rem 0.5rem;
+    font-size: var(--step-0);
+  }
+
+  .js .site-nav__link--current {
+    box-shadow: inset 2px 0 0 var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .js .site-nav__tools {
+    justify-content: space-between;
+    padding-top: 0.5rem;
+  }
+
+  .js .search-box {
+    flex: 1;
+  }
+
+  .js .search-box__input {
+    width: 100%;
+  }
+}
+
+/* Search box in the header */
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box__icon {
+  position: absolute;
+  left: 0.6rem;
+  display: inline-flex;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-box__input {
+  width: 11rem;
+  padding: 0.35rem 1.9rem 0.35rem 2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  font-size: var(--step--1);
+  transition: width 0.15s ease-out, border-color 0.15s;
+}
+
+.search-box__input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-box__input:focus {
+  width: 15rem;
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* The browser's own clear button collides with the "/" hint. */
+.search-box__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-box__hint {
+  position: absolute;
+  right: 0.45rem;
+  padding: 0 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.search-box__input:focus ~ .search-box__hint,
+.no-js .search-box__hint {
+  display: none;
+}
+
+.search-box[data-state="loading"] .search-box__icon {
+  animation: pulse 0.9s ease-in-out infinite alternate;
+}
+
+.search-box[data-state="error"] .search-box__input {
+  border-color: var(--danger);
+}
+
+.search-box__results {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 30;
+  width: min(26rem, 100vw - 2 * var(--gutter));
+  max-height: min(28rem, 70vh);
+  overflow-y: auto;
+  padding: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow);
+}
+
+/* These class names come from the search client, not from this theme. */
+.inkstone-search-result a {
+  display: block;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--radius-small);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.inkstone-search-result a:hover,
+.inkstone-search-result.is-active a {
+  background: var(--accent-soft);
+}
+
+.inkstone-search-title {
+  display: block;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.inkstone-search-summary {
+  display: -webkit-box;
+  margin-top: 0.15rem;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.inkstone-search-empty {
+  padding: 0.6rem 0.65rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+@keyframes pulse {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.3;
+  }
+}
+
+/* Breadcrumbs */
+
+.breadcrumbs {
+  margin-bottom: 1.25rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.3rem;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.breadcrumbs__item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.breadcrumbs__item a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.breadcrumbs__item--current span {
+  overflow: hidden;
+  max-width: 22ch;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Page headers (plain pages, sections, taxonomies) */
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header__kicker {
+  margin-bottom: 0.25rem;
+  color: var(--accent);
+  font-size: var(--step--1);
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.page-header__title {
+  font-size: var(--step-4);
+  letter-spacing: -0.02em;
+}
+
+.page-header__lead {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--step-1);
+  line-height: 1.5;
+}
+
+.page-header__count {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.page-footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.page-footer__updated {
+  margin-bottom: 0.75rem;
+}
+
+.section-intro {
+  margin-bottom: 2.5rem;
+}
+
+/* Article typography. Everything that comes out of Markdown sits in .content. */
+
+.content > * + * {
+  margin-top: 1.25em;
+}
+
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  margin-top: 2.2em;
+  scroll-margin-top: 1.5rem;
+}
+
+.content h2 {
+  font-size: var(--step-3);
+  letter-spacing: -0.015em;
+}
+
+.content h3 {
+  font-size: var(--step-2);
+}
+
+.content h4 {
+  font-size: var(--step-1);
+}
+
+.content h5,
+.content h6 {
+  font-size: var(--step-0);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.content h2 + *,
+.content h3 + *,
+.content h4 + * {
+  margin-top: 0.7em;
+}
+
+.content > :first-child {
+  margin-top: 0;
+}
+
+/* Links from a heading to itself, added by the toc plugin when it is set
+   to `anchors = true`. Out of the way until the heading is pointed at. */
+.content .heading-anchor {
+  margin-left: 0.3em;
+  color: var(--border-strong);
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.content :is(h2, h3, h4, h5, h6):hover > .heading-anchor,
+.content .heading-anchor:focus-visible {
+  color: var(--accent);
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .content .heading-anchor {
+    opacity: 0.6;
+  }
+}
+
+.content ul,
+.content ol {
+  padding-left: 1.5em;
+}
+
+.content li + li,
+.content li > ul,
+.content li > ol {
+  margin-top: 0.35em;
+}
+
+.content li::marker {
+  color: var(--text-muted);
+}
+
+.content li > p + p {
+  margin-top: 0.75em;
+}
+
+.content hr {
+  width: 6rem;
+  height: 0;
+  margin: 2.75em auto;
+  border: 0;
+  border-top: 2px solid var(--border-strong);
+}
+
+.content img {
+  display: block;
+  margin-inline: auto;
+  border-radius: var(--radius-small);
+}
+
+.content figure {
+  margin-block: 2em;
+}
+
+.content figcaption {
+  margin-top: 0.6em;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  text-align: center;
+}
+
+.content mark {
+  padding: 0.05em 0.2em;
+  border-radius: 2px;
+  background: var(--mark);
+  color: inherit;
+}
+
+.content abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+.content kbd {
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-small);
+  background: var(--bg-raised);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.content sup,
+.content sub {
+  line-height: 0;
+}
+
+.content details {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+}
+
+.content summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.content details[open] > summary {
+  margin-bottom: 0.75em;
+}
+
+.content details > * + * {
+  margin-top: 0.9em;
+}
+
+/* Responsive 16:9 box for embeds (the youtube shortcode and friends). */
+.content .video,
+.content .embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+}
+
+.content .video iframe,
+.content .embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.content iframe {
+  max-width: 100%;
+}
+
+/* Tables scroll sideways on their own instead of stretching the page. */
+.content table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.content th,
+.content td {
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content th {
+  border-bottom: 2px solid var(--border-strong);
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.content tbody tr:hover {
+  background: var(--bg-sunken);
+}
+
+.content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.content blockquote {
+  padding: 0.1rem 0 0.1rem 1.25rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-muted);
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.content blockquote > * + * {
+  margin-top: 0.8em;
+}
+
+.content blockquote cite,
+.content blockquote footer {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  font-style: normal;
+}
+
+.content blockquote cite::before,
+.content blockquote footer::before {
+  content: "\2014\00a0";
+}
+
+/* Admonitions: !!! note, !!! warning and so on, plus the `note` shortcode. */
+
+.content .admonition,
+.content .note {
+  --tone: var(--note);
+  padding: 0.85rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 35%, var(--border));
+  border-left: 4px solid var(--tone);
+  border-radius: var(--radius-small) var(--radius) var(--radius) var(--radius-small);
+  background: color-mix(in srgb, var(--tone) 7%, var(--bg));
+}
+
+.content .admonition > * + *,
+.content .note > * + * {
+  margin-top: 0.7em;
+}
+
+.content .admonition-title,
+.content .note__title {
+  color: var(--tone);
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.content .admonition:is(.tip, .hint, .success) {
+  --tone: var(--tip);
+}
+
+.content .admonition:is(.warning, .caution, .attention, .important) {
+  --tone: var(--warning);
+}
+
+.content .admonition:is(.danger, .error, .bug) {
+  --tone: var(--danger);
+}
+
+/* The collapsible kind (??? note) is a <details> with the same classes. */
+.content details.admonition > summary {
+  color: var(--tone);
+  font-size: var(--step--1);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Footnotes */
+
+.content .footnote-ref a {
+  padding: 0 0.2em;
+  font-weight: 600;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.content .footnote-ref a[aria-describedby] {
+  border-radius: 2px;
+  background: var(--accent-soft);
+}
+
+.content .footnotes {
+  margin-top: 3em;
+  padding-top: 1.25em;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.content .footnotes ol {
+  padding-left: 1.4em;
+}
+
+.content .footnotes li:target {
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 0.4em var(--accent-soft);
+  border-radius: 1px;
+  color: var(--text);
+}
+
+.content .footnote-backref {
+  margin-left: 0.25em;
+  text-decoration: none;
+  /* stop iOS turning the arrow into an emoji */
+  font-family: var(--font-mono);
+}
+
+.footnote-popover {
+  position: absolute;
+  z-index: 40;
+  width: min(24rem, 100vw - 2rem);
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font-size: var(--step--1);
+  line-height: 1.55;
+}
+
+.footnote-popover > * + * {
+  margin-top: 0.6em;
+}
+
+.footnote-popover code {
+  font-size: 0.9em;
+}
+
+/* Task lists and definition lists */
+
+.content .task-list {
+  padding-left: 0.2em;
+  list-style: none;
+}
+
+/* The checkbox is absolutely placed rather than a flex item: the rest of
+   the <li> is loose text and inline elements, which flex would split up. */
+.content .task-list-item {
+  position: relative;
+  padding-left: 1.6em;
+}
+
+.content .task-list-item input[type="checkbox"] {
+  position: absolute;
+  top: 0.32em;
+  left: 0;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.content dl {
+  display: grid;
+  gap: 0.25em 0;
+}
+
+.content dt {
+  margin-top: 0.75em;
+  font-weight: 650;
+}
+
+.content dt:first-child {
+  margin-top: 0;
+}
+
+.content dd {
+  margin: 0;
+  padding-left: 1.25em;
+  border-left: 2px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* Code */
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-variant-ligatures: none;
+}
+
+:not(pre) > code {
+  padding: 0.12em 0.36em;
+  border-radius: var(--radius-small);
+  background: var(--code-bg);
+  color: var(--code-text);
+  overflow-wrap: anywhere;
+}
+
+a > code {
+  color: inherit;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  tab-size: 4;
+  -webkit-overflow-scrolling: touch;
+}
+
+pre code {
+  font-size: inherit;
+}
+
+/* Highlighted blocks: css/highlight.css brings the token colours and usually
+   its own background, so the frame moves from the <pre> to the wrapper. */
+.highlight {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.highlight pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+/* With `linenos` the highlighter lays the block out as a two-cell table
+   (numbers, code). Undo what .content does to ordinary tables. */
+.content .highlight table {
+  display: table;
+  width: 100%;
+  border-spacing: 0;
+  font-size: inherit;
+}
+
+.content .highlight td {
+  padding: 0;
+  border: 0;
+}
+
+.content .highlight tr:hover {
+  background: none;
+}
+
+.content .highlight td.linenos pre {
+  padding-right: 0.8em;
+  border-right: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  overflow: hidden;
+  text-align: right;
+}
+
+.content .highlight td.code {
+  width: 99%;
+  /* lets the code cell scroll instead of pushing the table wider */
+  max-width: 0;
+}
+
+.content .highlight .filename {
+  padding: 0.3rem 1.15rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* Inline line numbers: a span at the start of each line. Blocks that were
+   not highlighted use the same class, hence the plain `pre` selector. */
+pre .lineno {
+  display: inline-block;
+  min-width: 2.2em;
+  margin-right: 1.1em;
+  padding-right: 0.7em;
+  border-right: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  color: var(--text-muted);
+  text-align: right;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Marked lines (hl_lines). The highlighter emits span.hll and colours it
+   from the style; unhighlighted blocks get span.line.hl and the accent.
+   min-width rather than width: a marked line that is longer than the box
+   keeps its background all the way when scrolled sideways. */
+pre .hll,
+pre .line.hl {
+  min-width: calc(100% + 2.3rem);
+  margin-inline: -1.15rem;
+  padding-inline: calc(1.15rem - 3px) 1.15rem;
+  border-left: 3px solid var(--accent);
+}
+
+pre .line.hl {
+  display: inline-block;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+/* Added by code.js */
+.code-block {
+  position: relative;
+}
+
+.code-block__lang {
+  position: absolute;
+  top: 0;
+  right: 3.9rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 0 0 var(--radius-small) var(--radius-small);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.code-copy {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-small);
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.code-block:hover .code-copy,
+.code-block:focus-within .code-copy,
+.code-copy:focus-visible {
+  opacity: 1;
+}
+
+.code-copy:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.code-copy--done {
+  border-color: var(--tip);
+  color: var(--tip);
+  opacity: 1;
+}
+
+.code-copy--failed {
+  border-color: var(--danger);
+  color: var(--danger);
+  opacity: 1;
+}
+
+/* No hover on touch screens, so the button is always there. */
+@media (hover: none) {
+  .code-copy {
+    opacity: 0.85;
+  }
+}
+
+/* Home page */
+
+.home-intro {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-intro__title {
+  font-size: var(--step-4);
+  letter-spacing: -0.02em;
+}
+
+.home-intro__body,
+.home-intro__lead {
+  margin-top: 1rem;
+  color: var(--text-muted);
+  font-size: var(--step-1);
+  line-height: 1.55;
+}
+
+.home-intro__body a {
+  color: var(--text);
+  text-decoration-color: var(--accent);
+}
+
+/* Post lists and cards */
+
+.post-list__title {
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.post-list__all {
+  margin-top: 2rem;
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.post-card {
+  padding-block: 1.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.post-card:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.post-card__title {
+  font-size: var(--step-2);
+  letter-spacing: -0.012em;
+}
+
+.post-card__title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.post-card__title a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+}
+
+.post-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.55rem;
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.post-card__meta > * + *::before {
+  content: "\00b7";
+  margin-right: 0.55rem;
+  color: var(--border-strong);
+}
+
+.post-card__meta > .badge::before {
+  content: none;
+}
+
+.post-card__summary {
+  margin-top: 0.8rem;
+}
+
+.post-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1.5rem;
+  margin-top: 0.9rem;
+}
+
+.post-card__more {
+  font-size: var(--step--1);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.post-card--draft {
+  opacity: 0.8;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.05em 0.5em;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.badge--draft {
+  color: var(--warning);
+}
+
+.empty {
+  padding: 2rem 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Tags */
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.tag::before {
+  content: "#";
+  margin-right: 0.08em;
+  color: var(--border-strong);
+}
+
+a.tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+a.tag:hover::before {
+  color: inherit;
+}
+
+.term-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.term-list__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.term-list__link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.term-list__name {
+  overflow: hidden;
+  font-weight: 550;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.term-list__count {
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.subsections {
+  margin-bottom: 2.5rem;
+}
+
+.subsections__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.subsections__link {
+  font-weight: 600;
+}
+
+.subsections__count {
+  margin-left: 0.2rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+/* Pagination */
+
+.pagination {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: var(--step--1);
+}
+
+.pagination__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pagination__step--prev {
+  justify-self: start;
+}
+
+.pagination__step--next {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.pagination__step--disabled {
+  color: var(--border-strong);
+}
+
+.pagination__pages {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination__page {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding-inline: 0.4rem;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+a.pagination__page:hover {
+  background: var(--bg-sunken);
+  color: var(--text);
+}
+
+.pagination__page--current {
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 650;
+}
+
+.pagination__gap {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 2rem;
+  color: var(--border-strong);
+}
+
+/* "Page 2 of 7" replaces the row of numbers where there is no room for it. */
+.pagination__summary {
+  display: none;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@media (max-width: 34em) {
+  .pagination__pages {
+    display: none;
+  }
+
+  .pagination__summary {
+    display: block;
+  }
+}
+
+/* Posts */
+
+.post-layout {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, var(--measure));
+  justify-content: center;
+}
+
+/* the grid gap is more air than a breadcrumb trail wants under it */
+.post-layout > .breadcrumbs {
+  margin-bottom: -0.75rem;
+}
+
+.post__header {
+  margin-bottom: 2.25rem;
+}
+
+.post__title {
+  font-size: var(--step-4);
+  letter-spacing: -0.022em;
+}
+
+.post__lead {
+  margin-top: 0.8rem;
+  color: var(--text-muted);
+  font-size: var(--step-1);
+  line-height: 1.5;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.25rem;
+  margin-top: 1rem;
+  padding: 0;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  list-style: none;
+}
+
+.post-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.post-meta__item--updated {
+  font-style: italic;
+}
+
+.post__footer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.post__categories {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+/* Table of contents */
+
+.toc {
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  font-size: var(--step--1);
+}
+
+.toc__title {
+  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.toc ul,
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc li {
+  margin: 0;
+}
+
+.toc li li {
+  padding-left: 0.9rem;
+}
+
+.toc a {
+  display: block;
+  padding: 0.22rem 0 0.22rem 0.7rem;
+  border-left: 2px solid transparent;
+  color: var(--text-muted);
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--text);
+}
+
+.toc a.is-active {
+  border-left-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* A [TOC] marker inside the article body reuses the same box. */
+.content .toc {
+  max-width: 28rem;
+}
+
+@media (min-width: 64em) {
+  /* Article on the left edge of the wide container, in line with the site
+     title above it; contents on the right. */
+  .post-layout--with-toc {
+    grid-template-columns: minmax(0, var(--measure)) minmax(12rem, 16rem);
+    gap: 2rem 3.5rem;
+    justify-content: space-between;
+  }
+
+  /* Everything stays in column one and stacks in source order, except the
+     aside, which takes the second column for the whole height. */
+  .post-layout--with-toc > * {
+    grid-column: 1;
+  }
+
+  .post-layout--with-toc > .post-layout__aside {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+
+  .post-layout__aside .toc {
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    padding: 0 0 0 0.25rem;
+    border: 0;
+    background: none;
+    overscroll-behavior: contain;
+  }
+
+  .post-layout__aside .toc__body > ul,
+  .post-layout__aside .toc__body > ol {
+    border-left: 1px solid var(--border);
+  }
+
+  .post-layout__aside .toc a {
+    margin-left: -1px;
+  }
+}
+
+/* Series box, prev/next, related */
+
+.series {
+  margin-bottom: 2rem;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  font-size: var(--step--1);
+}
+
+.series__title {
+  color: var(--text-muted);
+}
+
+.series__title strong {
+  color: var(--text);
+}
+
+.series__list {
+  margin-top: 0.5rem;
+  padding-left: 1.4em;
+}
+
+.series__item + .series__item {
+  margin-top: 0.2rem;
+}
+
+.series__item--current {
+  font-weight: 650;
+}
+
+.series__item--current::marker {
+  color: var(--accent);
+}
+
+.post-after {
+  margin-top: 1rem;
+}
+
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.post-nav__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  text-decoration: none;
+}
+
+.post-nav__link--empty {
+  visibility: hidden;
+}
+
+.post-nav__link--next {
+  grid-column: 2;
+  align-items: flex-end;
+  text-align: right;
+}
+
+a.post-nav__link:hover {
+  border-color: var(--accent);
+}
+
+.post-nav__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.post-nav__title {
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+a.post-nav__link:hover .post-nav__title {
+  color: var(--accent);
+}
+
+@media (max-width: 34em) {
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .post-nav__link--next {
+    grid-column: 1;
+  }
+
+  .post-nav__link--empty {
+    display: none;
+  }
+}
+
+.related {
+  margin-top: 2.5rem;
+}
+
+.related__title {
+  margin-bottom: 0.75rem;
+  font-size: var(--step-1);
+}
+
+.related__list,
+.plain-list {
+  padding: 0;
+  list-style: none;
+}
+
+.related__item,
+.plain-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.related__item:last-child,
+.plain-list li:last-child {
+  border-bottom: 0;
+}
+
+.related__link {
+  font-weight: 550;
+}
+
+.related__date,
+.plain-list__date {
+  flex: none;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Archive and series index pages. The archives and series plugins write
+   this markup themselves and show it through page.html. */
+
+.content .archive__year + .archive__year {
+  margin-top: 2.5em;
+}
+
+/* year and month headings are links; they should still read as headings */
+.content :is(.archive, .series-index) :is(h2, h3) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.content :is(.archive, .series-index) :is(h2, h3) a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.content .archive__list {
+  padding: 0;
+  list-style: none;
+}
+
+.content .archive__list li {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.content .archive__list time {
+  flex: none;
+  width: 4.5em;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.content .archive__years {
+  margin-top: 2.5em;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.content .archive__empty {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.content .series-index small {
+  margin-left: 0.4em;
+  color: var(--text-muted);
+  font-size: 0.55em;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Buttons */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--bg);
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.button:hover {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+  color: var(--bg);
+}
+
+.button--quiet {
+  border-color: var(--border-strong);
+  background: none;
+  color: var(--text);
+}
+
+.button--quiet:hover {
+  border-color: var(--accent);
+  background: none;
+  color: var(--accent);
+}
+
+/* Search page */
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-form__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+}
+
+.search-form__input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.search-status {
+  min-height: 1.65em;
+  margin-top: 1rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.search-status--error {
+  color: var(--danger);
+}
+
+.search-results {
+  margin-top: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.search-result {
+  padding-block: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+.search-result__title {
+  font-size: var(--step-1);
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.search-result__title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.search-result__title a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.search-result__url {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.search-result__summary {
+  margin-top: 0.4rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.search-result mark,
+.inkstone-search-result mark {
+  padding: 0 0.1em;
+  border-radius: 2px;
+  background: var(--mark);
+  color: inherit;
+}
+
+.search-help {
+  margin-top: 2.5rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+/* 404 */
+
+.not-found {
+  padding-block: clamp(1rem, 6vw, 4rem) 2rem;
+  text-align: center;
+}
+
+.not-found__code {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: clamp(4rem, 18vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.not-found__title {
+  margin-top: 0.5rem;
+  font-size: var(--step-3);
+}
+
+.not-found__text {
+  max-width: 30rem;
+  margin: 1rem auto 0;
+  color: var(--text-muted);
+}
+
+.not-found__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.not-found__recent {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.not-found__recent h2 {
+  margin-bottom: 0.5rem;
+  font-size: var(--step-1);
+}
+
+/* Footer */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding-block: 1.75rem;
+}
+
+.site-footer__text {
+  margin-right: auto;
+}
+
+.site-footer__colophon {
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+}
+
+.site-footer a {
+  color: inherit;
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
+
+.site-footer__list,
+.site-footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__social a {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius);
+}
+
+.site-footer__social a:hover {
+  background: var(--bg);
+}
+
+.site-footer__top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+}
+
+/* Drafts are only ever seen locally; make them hard to mistake for the real
+   thing. */
+.is-draft .site-header {
+  border-bottom: 3px dashed var(--warning);
+}
+
+/* Utilities */
+
+.icon {
+  flex: none;
+  vertical-align: -0.15em;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.full-bleed {
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+}
+
+/* Motion */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

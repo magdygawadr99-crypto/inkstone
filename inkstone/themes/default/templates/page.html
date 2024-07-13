@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{# A plain page: about, colophon, anything outside a section with its own layout. #}
+{% block content %}
+{% import "partials/macros.html" as m %}
+{% include "partials/breadcrumbs.html" %}
+<article class="page">
+  <header class="page-header">
+    <h1 class="page-header__title">{{ page.title }}</h1>
+    {% if page.description %}
+    <p class="page-header__lead">{{ page.description }}</p>
+    {% endif %}
+    {% if page.draft %}
+    <p><span class="badge badge--draft">Draft</span></p>
+    {% endif %}
+  </header>
+
+  <div class="content">
+    {{ page.content }}
+  </div>
+
+  {% if page.updated or page.tags %}
+  <footer class="page-footer">
+    {% if page.updated %}
+    <p class="page-footer__updated">Last updated {{ m.format_date(page.updated, config.params.date_format) }}</p>
+    {% endif %}
+    {% if page.tags %}
+    {% set tags = page.tags %}
+    {% include "partials/tag_list.html" %}
+    {% endif %}
+  </footer>
+  {% endif %}
+</article>
+{% endblock %}

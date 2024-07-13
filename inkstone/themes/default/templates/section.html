@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }}{% if paginator is defined and paginator and paginator.page > 1 %} (page {{ paginator.page }}){% endif %} · {{ site.title }}{% endblock %}
+
+{% block content %}
+{% import "partials/macros.html" as m %}
+{% include "partials/breadcrumbs.html" %}
+<header class="page-header">
+  <h1 class="page-header__title">{{ page.title }}</h1>
+  {% if page.description %}
+  <p class="page-header__lead">{{ page.description }}</p>
+  {% endif %}
+  {% if paginator is defined and paginator %}
+  <p class="page-header__count">{{ m.count(paginator.total, "entry", "entries") }}</p>
+  {% endif %}
+</header>
+
+{# The body of _index.md, if it has one. Not repeated on page 2 and later. #}
+{% if page.content and not (paginator is defined and paginator and paginator.page > 1) %}
+<div class="section-intro content">
+  {{ page.content }}
+</div>
+{% endif %}
+
+{% if section is defined and section and section.subsections %}
+<nav class="subsections" aria-label="Sub-sections">
+  <ul class="subsections__list">
+    {% for sub in section.subsections %}
+    <li class="subsections__item">
+      <a class="subsections__link" href="{{ url_for(sub.url) }}">{{ sub.title }}</a>
+      <span class="subsections__count">{{ sub.pages | length }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endif %}
+
+<section class="post-list" aria-label="{{ page.title }}">
+  {% if pages %}
+  {% for post in pages %}
+  {% include "partials/post_card.html" %}
+  {% endfor %}
+  {% else %}
+  <p class="empty">Nothing here yet.</p>
+  {% endif %}
+</section>
+
+{% include "partials/pagination.html" %}
+{% endblock %}

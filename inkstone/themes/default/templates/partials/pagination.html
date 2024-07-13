@@ -1,0 +1,47 @@
+{% import "partials/macros.html" as m %}
+{# Renders nothing when there is only one page. #}
+{% if paginator is defined and paginator and paginator.pages > 1 %}
+<nav class="pagination" aria-label="Pagination">
+  {% if paginator.has_prev %}
+  <a class="pagination__step pagination__step--prev" href="{{ url_for(paginator.prev_url) }}" rel="prev">
+    {{ m.icon("arrow-left", 16) }}<span>Previous</span>
+  </a>
+  {% else %}
+  <span class="pagination__step pagination__step--prev pagination__step--disabled" aria-disabled="true">
+    {{ m.icon("arrow-left", 16) }}<span>Previous</span>
+  </span>
+  {% endif %}
+
+  {# Long lists are shortened to 1 … 4 5 [6] 7 8 … 20 when the paginator can
+     work that out; gaps come back without a number. #}
+  {% set links = paginator.page_urls %}
+  {% if paginator.window is defined and paginator.pages > 7 %}
+  {% set links = paginator.window(2) %}
+  {% endif %}
+  <ol class="pagination__pages">
+    {% for number, url in links %}
+    <li>
+      {% if not number %}
+      <span class="pagination__gap" aria-hidden="true">&hellip;</span>
+      {% elif number == paginator.page %}
+      <span class="pagination__page pagination__page--current" aria-current="page">{{ m.sr("Page ") }}{{ number }}</span>
+      {% else %}
+      <a class="pagination__page" href="{{ url_for(url) }}">{{ m.sr("Page ") }}{{ number }}</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+
+  <p class="pagination__summary">Page {{ paginator.page }} of {{ paginator.pages }}</p>
+
+  {% if paginator.has_next %}
+  <a class="pagination__step pagination__step--next" href="{{ url_for(paginator.url) }}" rel="next">
+    <span>Next</span>{{ m.icon("arrow-right", 16) }}
+  </a>
+  {% else %}
+  <span class="pagination__step pagination__step--next pagination__step--disabled" aria-disabled="true">
+    <span>Next</span>{{ m.icon("arrow-right", 16) }}
+  </span>
+  {% endif %}
+</nav>
+{% endif %}

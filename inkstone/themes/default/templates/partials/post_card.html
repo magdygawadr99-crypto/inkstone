@@ -1,0 +1,45 @@
+{% import "partials/macros.html" as m %}
+{#
+  One entry in a list of posts. Expects `post` (a Page). The including
+  template can set `card_heading` to "h3" when the cards sit under an h2.
+#}
+{% set heading = card_heading | default("h2") %}
+<article class="post-card h-entry{% if post.draft %} post-card--draft{% endif %}">
+  <header class="post-card__header">
+    <{{ heading }} class="post-card__title">
+      <a class="u-url p-name" href="{{ url_for(post.url) }}">{{ post.title }}</a>
+    </{{ heading }}>
+    <p class="post-card__meta">
+      {% if post.date %}
+      {{ m.format_date(post.date, config.params.date_format, "dt-published") }}
+      {% endif %}
+      {% if config.params.show_reading_time and post.reading_time %}
+      {{ m.reading_time(post.reading_time) }}
+      {% endif %}
+      {% if post.draft %}
+      <span class="badge badge--draft">Draft</span>
+      {% endif %}
+    </p>
+  </header>
+
+  {% if post.summary %}
+  <div class="post-card__summary content p-summary">
+    {{ post.summary | safe }}
+  </div>
+  {% elif post.description %}
+  <p class="post-card__summary p-summary">{{ post.description }}</p>
+  {% endif %}
+
+  {% if post.tags or post.truncated %}
+  <footer class="post-card__footer">
+    {# `truncated` is set when the summary is not the whole post. #}
+    {% if post.truncated %}
+    <a class="post-card__more" href="{{ url_for(post.url) }}">Continue reading{{ m.sr(": " ~ post.title) }}</a>
+    {% endif %}
+    {% if post.tags %}
+    {% set tags = post.tags %}
+    {% include "partials/tag_list.html" %}
+    {% endif %}
+  </footer>
+  {% endif %}
+</article>

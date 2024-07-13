@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found · {{ site.title }}{% endblock %}
+
+{% block content %}
+{% import "partials/macros.html" as m %}
+<section class="not-found">
+  <p class="not-found__code" aria-hidden="true">404</p>
+  <h1 class="not-found__title">{{ page.title or "Page not found" }}</h1>
+  {% if page.content %}
+  <div class="content">
+    {{ page.content }}
+  </div>
+  {% else %}
+  <p class="not-found__text">
+    There is nothing at this address. It may have moved, or the link that
+    brought you here has a typo in it.
+  </p>
+  {% endif %}
+
+  <p class="not-found__actions">
+    <a class="button" href="{{ url_for('/') }}">{{ m.icon("arrow-left", 16) }} Back to the front page</a>
+  </p>
+</section>
+
+{# The 404 page is served from any depth, so every link above and below is absolute-path. #}
+{% if site.pages %}
+<section class="not-found__recent" aria-labelledby="not-found-recent">
+  <h2 id="not-found-recent">Recently written</h2>
+  <ul class="plain-list">
+    {% for post in site.pages %}
+    {% if loop.index <= 5 %}
+    <li>
+      <a href="{{ url_for(post.url) }}">{{ post.title }}</a>
+      {% if post.date %}
+      {{ m.format_date(post.date, config.params.date_format, "plain-list__date") }}
+      {% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% endblock %}

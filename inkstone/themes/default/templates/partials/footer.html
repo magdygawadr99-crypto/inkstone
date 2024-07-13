@@ -1,0 +1,51 @@
+{% import "partials/macros.html" as m %}
+<footer class="site-footer">
+  <div class="site-footer__inner container container--wide">
+    <div class="site-footer__text">
+      {% if config.params.footer_text %}
+      <p>{{ config.params.footer_text | safe }}</p>
+      {% else %}
+      <p>
+        &copy; {{ now | date("%Y") }}
+        {% if site.author.name %}
+        {% if site.author.url %}<a href="{{ site.author.url }}" rel="author">{{ site.author.name }}</a>{% else %}{{ site.author.name }}{% endif %}
+        {% else %}
+        {{ site.title }}
+        {% endif %}
+      </p>
+      {% endif %}
+      <p class="site-footer__colophon">
+        Built with <a href="https://github.com/magdygawadr99-crypto/inkstone">inkstone</a> {{ inkstone.version }}
+      </p>
+    </div>
+
+    {% if site.menus.footer %}
+    <nav class="site-footer__nav" aria-label="Footer">
+      <ul class="site-footer__list">
+        {% for item in site.menus.footer %}
+        <li><a href="{% if '://' in item.url %}{{ item.url }}{% else %}{{ url_for(item.url) }}{% endif %}">{{ item.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+
+    {% if config.params.social %}
+    <ul class="site-footer__social">
+      {% if config.params.social.github %}
+      <li><a href="{{ config.params.social.github }}" rel="me noopener">{{ m.icon("github") }}{{ m.sr("GitHub") }}</a></li>
+      {% endif %}
+      {% if config.params.social.mastodon %}
+      <li><a href="{{ config.params.social.mastodon }}" rel="me noopener">{{ m.icon("at") }}{{ m.sr("Mastodon") }}</a></li>
+      {% endif %}
+      {% if config.params.social.email %}
+      <li><a href="mailto:{{ config.params.social.email }}">{{ m.icon("mail") }}{{ m.sr("Email") }}</a></li>
+      {% endif %}
+      {% if config.params.social.rss and (config.feeds.rss or config.feeds.atom) %}
+      <li><a href="{% if config.feeds.rss %}{{ url_for('/rss.xml') }}{% else %}{{ url_for('/atom.xml') }}{% endif %}">{{ m.icon("rss") }}{{ m.sr("Feed") }}</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+
+    <a class="site-footer__top" href="#main">{{ m.icon("arrow-up", 16) }} Top</a>
+  </div>
+</footer>

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.title }}{% if config.description %} · {{ config.description }}{% endif %}{% endblock %}
+
+{% block content %}
+{% set later_page = paginator is defined and paginator and paginator.page > 1 %}
+
+{# The intro (title and the body of content/_index.md) is for the first page
+   only. Page 2 and later are a plain list with its own heading. #}
+{% if later_page %}
+<header class="page-header">
+  <h1 class="page-header__title">Posts, page {{ paginator.page }}</h1>
+</header>
+{% else %}
+<section class="home-intro">
+  <h1 class="home-intro__title">{{ page.title or site.title }}</h1>
+  {% if page.content %}
+  <div class="home-intro__body content">
+    {{ page.content }}
+  </div>
+  {% elif config.description %}
+  <p class="home-intro__lead">{{ config.description }}</p>
+  {% endif %}
+</section>
+{% endif %}
+
+<section class="post-list" aria-label="Posts">
+  {% if not later_page %}
+  <h2 class="post-list__title">Recent posts</h2>
+  {% set card_heading = "h3" %}
+  {% endif %}
+  {% if pages %}
+  {% for post in pages %}
+  {% include "partials/post_card.html" %}
+  {% endfor %}
+  {% else %}
+  <p class="empty">Nothing published yet.</p>
+  {% endif %}
+</section>
+
+{% include "partials/pagination.html" %}
+
+{% if paginator is defined and paginator and not paginator.has_next and site.sections.posts is defined %}
+<p class="post-list__all">
+  <a href="{{ url_for(site.sections.posts.url) }}">All posts</a>
+</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{# The list of terms in a taxonomy: /tags/, /categories/. #}
+{% block title %}{{ page.title or (taxonomy.name | title) }} · {{ site.title }}{% endblock %}
+
+{% block content %}
+{% import "partials/macros.html" as m %}
+{% include "partials/breadcrumbs.html" %}
+<header class="page-header">
+  <h1 class="page-header__title">{{ page.title or (taxonomy.name | title) }}</h1>
+  <p class="page-header__count">{{ m.count(taxonomy.terms | length, taxonomy.singular, taxonomy.name) }}</p>
+</header>
+
+{% if page.content %}
+<div class="section-intro content">
+  {{ page.content }}
+</div>
+{% endif %}
+
+{% if taxonomy.terms %}
+<ul class="term-list">
+  {% for entry in taxonomy %}
+  <li class="term-list__item">
+    <a class="term-list__link" href="{{ url_for(entry.url) }}">
+      <span class="term-list__name">{{ entry.name }}</span>
+      <span class="term-list__count">{{ entry.count }}{{ m.sr(" posts") }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">No {{ taxonomy.name }} yet.</p>
+{% endif %}
+{% endblock %}

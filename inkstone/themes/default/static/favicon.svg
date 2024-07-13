@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>inkstone</title>
+  <style>
+    .stone { fill: #23211e; }
+    .well { fill: #fbfaf7; }
+    .ink { fill: #a5371f; }
+    @media (prefers-color-scheme: dark) {
+      .stone { fill: #e4e1da; }
+      .well { fill: #17181b; }
+      .ink { fill: #ef8a6d; }
+    }
+  </style>
+  <rect class="stone" x="3" y="5" width="26" height="22" rx="4"/>
+  <ellipse class="well" cx="16" cy="17.5" rx="8.5" ry="6"/>
+  <rect class="ink" x="8" y="8.5" width="16" height="2.2" rx="1.1"/>
+</svg>

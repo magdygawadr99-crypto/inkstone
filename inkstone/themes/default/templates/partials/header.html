@@ -1,0 +1,70 @@
+{% import "partials/macros.html" as m %}
+<header class="site-header">
+  <div class="site-header__inner container container--wide">
+    <a class="site-header__brand" href="{{ url_for('/') }}" rel="home">
+      {# The same drawing as favicon.svg; the colours come from main.css. #}
+      <svg class="site-header__mark" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect class="site-header__mark-stone" x="3" y="5" width="26" height="22" rx="4"/>
+        <ellipse class="site-header__mark-well" cx="16" cy="17.5" rx="8.5" ry="6"/>
+        <rect class="site-header__mark-ink" x="8" y="8.5" width="16" height="2.2" rx="1.1"/>
+      </svg>
+      <span class="site-header__title">{{ site.title }}</span>
+    </a>
+
+    {# nav.js removes `hidden`; without JavaScript the menu is simply always open. #}
+    <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" hidden>
+      <span class="nav-toggle__icon nav-toggle__icon--open">{{ m.icon("menu", 20) }}</span>
+      <span class="nav-toggle__icon nav-toggle__icon--close">{{ m.icon("close", 20) }}</span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        {% if site.menus.main %}
+        {% for item in site.menus.main %}
+        {% set external = "://" in item.url %}
+        {# Current: this very page, the section the page is in (a post under
+           /2024/05/... still belongs to "Posts"), or whatever the menu entry
+           itself counts as below it. #}
+        {% set current = page.url == item.url or (section is defined and section and section.url == item.url) or (item.is_current is defined and item.is_current(page)) %}
+        <li class="site-nav__item{% if item.children %} site-nav__item--parent{% endif %}">
+          {% if external %}
+          <a class="site-nav__link" href="{{ item.url }}" rel="noopener">{{ item.name }}</a>
+          {% else %}
+          <a class="site-nav__link{% if current %} site-nav__link--current{% endif %}" href="{{ url_for(item.url) }}"{% if current %} aria-current="{% if page.url == item.url %}page{% else %}true{% endif %}"{% endif %}>{{ item.name }}</a>
+          {% endif %}
+          {% if item.children %}
+          <ul class="site-nav__sub">
+            {% for child in item.children %}
+            <li>
+              <a class="site-nav__link" href="{% if '://' in child.url %}{{ child.url }}{% else %}{{ url_for(child.url) }}{% endif %}"{% if page.url == child.url %} aria-current="page"{% endif %}>{{ child.name }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+        {% endfor %}
+        {% else %}
+        {# No [[menus.main]] in the config: fall back to the top-level sections. #}
+        {% for name in site.sections %}
+        {% set s = site.sections[name] %}
+        {% if not s.parent %}
+        <li class="site-nav__item">
+          <a class="site-nav__link{% if section is defined and section and section.name == name %} site-nav__link--current{% endif %}" href="{{ url_for(s.url) }}">{{ s.title }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </ul>
+
+      <div class="site-nav__tools">
+        {% if config.params.show_theme_toggle %}
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme" hidden>
+          <span class="theme-toggle__icon theme-toggle__icon--light">{{ m.icon("sun") }}</span>
+          <span class="theme-toggle__icon theme-toggle__icon--dark">{{ m.icon("moon") }}</span>
+        </button>
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+</header>

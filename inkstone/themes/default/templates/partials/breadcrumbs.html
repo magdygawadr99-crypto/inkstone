@@ -1,0 +1,36 @@
+{% import "partials/macros.html" as m %}
+{#
+  Home > section > page. Sections can nest to any depth, so the trail for a
+  section is a macro that first calls itself for the parent.
+#}
+{% macro section_crumbs(sec) %}
+{% if sec.parent %}{{ section_crumbs(sec.parent) }}{% endif %}
+<li class="breadcrumbs__item">
+  {{ m.icon("chevron", 14) }}
+  <a href="{{ url_for(sec.url) }}">{{ sec.title }}</a>
+</li>
+{% endmacro %}
+
+{% if config.params.show_breadcrumbs and page.kind != "home" and page.kind != "404" %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol class="breadcrumbs__list">
+    <li class="breadcrumbs__item">
+      <a href="{{ url_for('/') }}">Home</a>
+    </li>
+    {% if page.kind == "term" and taxonomy is defined and taxonomy %}
+    <li class="breadcrumbs__item">
+      {{ m.icon("chevron", 14) }}
+      <a href="{{ url_for(taxonomy.url) }}">{{ taxonomy.name | title }}</a>
+    </li>
+    {% elif page.kind == "page" and page.section %}
+    {{ section_crumbs(page.section) }}
+    {% elif page.kind == "section" and page.section and page.section.parent %}
+    {{ section_crumbs(page.section.parent) }}
+    {% endif %}
+    <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+      {{ m.icon("chevron", 14) }}
+      <span>{% if page.kind == "term" and term is defined %}{{ term.name }}{% else %}{{ page.title }}{% endif %}</span>
+    </li>
+  </ol>
+</nav>
+{% endif %}

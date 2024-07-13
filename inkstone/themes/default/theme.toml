@@ -1,0 +1,41 @@
+name = "default"
+description = "The theme inkstone ships with: a quiet blog layout, light and dark."
+version = "0.6.0"
+license = "MIT"
+
+# Everything under [params] is a default. A site overrides any of these in the
+# [params] table of its own inkstone.toml; templates read them as
+# config.params.<name>.
+[params]
+# Leave the accent colours empty to use the ones in css/main.css. If you set
+# one, set both, or dark mode keeps the stock accent.
+accent = ""
+accent_dark = ""
+
+show_reading_time = true
+show_toc = true
+show_breadcrumbs = true
+show_theme_toggle = true
+show_post_nav = true
+
+# A strftime pattern ("%-d" is the day without a leading zero, on every
+# platform), or one of the named formats: iso, short, long, full, month.
+date_format = "%-d %B %Y"
+
+# Replaces the copyright line in the footer. HTML is allowed.
+footer_text = ""
+
+# Where the search page lives (a page with `template: search.html`).
+search_url = "/search/"
+
+# Fallback image for og:image; a page can set `image` in its front matter.
+og_image = ""
+
+# Extra stylesheets from the site's static/ directory, loaded after main.css.
+custom_css = []
+
+[params.social]
+github = ""
+mastodon = ""
+email = ""
+rss = true

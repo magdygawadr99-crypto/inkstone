@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="{{ site.language }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% if page.kind != "home" and page.title %}{{ page.title }} · {% endif %}{{ site.title }}{% endblock %}</title>
+  {% block head %}
+  {% include "partials/head.html" %}
+  {% endblock %}
+  {% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+  {% if config.markdown.highlight %}
+  <link rel="stylesheet" href="{{ asset('css/highlight.css') }}">
+  {% endif %}
+  {% endblock %}
+  {% block custom_css %}
+  {% if config.params.custom_css %}
+  {% for href in config.params.custom_css %}
+  <link rel="stylesheet" href="{{ asset(href) }}">
+  {% endfor %}
+  {% endif %}
+  {% endblock %}
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="kind-{{ page.kind }}{% if page.draft %} is-draft{% endif %}">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {% block header %}
+  {% include "partials/header.html" %}
+  {% endblock %}
+
+  <main id="main" class="site-main" tabindex="-1">
+    {% block main %}
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+    {% endblock %}
+  </main>
+
+  {% block footer %}
+  {% include "partials/footer.html" %}
+  {% endblock %}
+
+  {% block scripts %}
+  <script src="{{ asset('js/nav.js') }}" defer></script>
+  {% endblock %}
+</body>
+</html>

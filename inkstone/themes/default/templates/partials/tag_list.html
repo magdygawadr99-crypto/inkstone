@@ -1,0 +1,18 @@
+{#
+  A row of tag links. Expects `tags` (a list of term names). The URL comes
+  from the taxonomy so it keeps working when pretty_urls is off.
+#}
+{% if tags and site.taxonomies.tags is defined %}
+<ul class="tag-list" aria-label="Tags">
+  {% for name in tags %}
+  {% set found = site.taxonomies.tags.terms[name | slugify] %}
+  <li class="tag-list__item">
+    {% if found %}
+    <a class="tag p-category" href="{{ url_for(found.url) }}" rel="tag">{{ name }}</a>
+    {% else %}
+    <span class="tag p-category">{{ name }}</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
