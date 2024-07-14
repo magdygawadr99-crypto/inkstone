@@ -22,6 +22,9 @@ classifiers = [
 [project.optional-dependencies]
 dev = ["pytest>=7"]
 
+[project.scripts]
+inkstone = "inkstone.cli:main"
+
 [tool.setuptools.dynamic]
 version = { attr = "inkstone.__version__" }
 
