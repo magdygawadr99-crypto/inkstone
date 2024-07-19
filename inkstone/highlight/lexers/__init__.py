@@ -4,8 +4,10 @@ from __future__ import annotations
 from . import (  # noqa: F401
     css,
     data,
+    diff,
     javascript,
     markup,
     python,
+    shell,
     yaml,
 )
