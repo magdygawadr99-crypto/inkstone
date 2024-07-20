@@ -19,6 +19,11 @@ def add_parser(commands, shared) -> None:
     parser.add_argument(
         "--clean", action="store_true", help="delete output and cache first"
     )
+    parser.add_argument(
+        "--no-incremental",
+        action="store_true",
+        help="render every page, whatever the cache says",
+    )
     parser.add_argument("--minify", action="store_true", help="minify HTML, CSS and JS")
     parser.add_argument(
         "--fingerprint",
@@ -55,6 +60,7 @@ def overrides(args) -> dict:
             # a relative DIR means relative to where the command was typed
             "output_dir": str(Path(args.output).resolve()) if args.output else None,
             "base_url": args.base_url,
+            "build.incremental": False if args.no_incremental else None,
             "build.minify": True if args.minify else None,
             "build.fingerprint": True if args.fingerprint else None,
         }
