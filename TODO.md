@@ -1,20 +1,25 @@
 ## next
 
-- [ ] front matter properly. the `key: value` hack falls over on lists and on
-      titles with a colon in them
-- [ ] config: a typo in inkstone.toml is a KeyError with a traceback
-- [ ] sections, tags
-- [ ] rss
-- [ ] pagination
+- [ ] live reload (websocket, or just poll?)
+- [ ] error page in the browser when the build fails
+- [ ] `inkstone new`
+- [ ] shortcodes
+- [ ] docs. there are none
 
 ## later
 
-- [ ] syntax highlighting
-- [ ] serve + rebuild on change
-- [ ] only rebuild what changed
-- [ ] search?
+- [ ] search
+- [ ] related posts
+- [ ] link checker
+- [ ] image sizes in the html (no resizing!)
+- [ ] windows: run the tests there more often
 
 ## done
 
-- [x] markdown: blocks, inlines, tables, footnotes, task lists
-- [x] templates: inheritance, includes, macros, filters
+- [x] markdown, templates
+- [x] yaml front matter, toml too
+- [x] real config with validation
+- [x] sections, taxonomies, pagination
+- [x] rss / atom / sitemap
+- [x] syntax highlighting
+- [x] incremental builds
