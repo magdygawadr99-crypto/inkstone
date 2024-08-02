@@ -93,6 +93,7 @@ def build_parser() -> Parser:
     from . import (
         build,
         clean,
+        highlight,
         serve,
         version,
     )
@@ -115,6 +116,7 @@ def build_parser() -> Parser:
         build,
         serve,
         clean,
+        highlight,
         version,
     ):
         module.add_parser(commands, shared)
