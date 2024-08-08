@@ -7,9 +7,11 @@ from . import (  # noqa: F401
     data,
     diff,
     go,
+    java,
     javascript,
     markup,
     python,
+    rust,
     shell,
     yaml,
 )
