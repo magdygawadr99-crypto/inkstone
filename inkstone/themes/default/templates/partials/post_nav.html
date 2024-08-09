@@ -1,0 +1,25 @@
+{% import "partials/macros.html" as m %}
+{#
+  Neighbours inside the section, in the section's own sort order. A section
+  sorted by date lists the newest page first, so "previous" there is the
+  newer post; saying "Newer" and "Older" is clearer than making people guess.
+#}
+{% if config.params.show_post_nav and (page.prev or page.next) %}
+{% set by_date = page.section and page.section.sort_by is defined and page.section.sort_by == "date" %}
+<nav class="post-nav" aria-label="{% if by_date %}Newer and older posts{% else %}Previous and next{% endif %}">
+  {% if page.prev %}
+  <a class="post-nav__link post-nav__link--prev" href="{{ url_for(page.prev.url) }}" rel="prev">
+    <span class="post-nav__label">{{ m.icon("arrow-left", 15) }} {% if by_date %}Newer{% else %}Previous{% endif %}</span>
+    <span class="post-nav__title">{{ page.prev.title }}</span>
+  </a>
+  {% else %}
+  <span class="post-nav__link post-nav__link--empty"></span>
+  {% endif %}
+  {% if page.next %}
+  <a class="post-nav__link post-nav__link--next" href="{{ url_for(page.next.url) }}" rel="next">
+    <span class="post-nav__label">{% if by_date %}Older{% else %}Next{% endif %} {{ m.icon("arrow-right", 15) }}</span>
+    <span class="post-nav__title">{{ page.next.title }}</span>
+  </a>
+  {% endif %}
+</nav>
+{% endif %}

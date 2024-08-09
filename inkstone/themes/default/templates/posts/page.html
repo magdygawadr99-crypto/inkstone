@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{#
+  A blog post. Used for every page in the "posts" section; other sections
+  can opt in with `template: posts/page.html` in their front matter.
+#}
+{% block main %}
+{# Front matter `toc: false` (or true) wins over the theme setting. #}
+{% set show_toc = page.toc_html and (page.params.toc | default(config.params.show_toc)) %}
+<div class="container container--wide">
+  {# Source order is breadcrumbs, contents, article: what a phone shows from
+     top to bottom. Wide screens move the contents into a second column. #}
+  <div class="post-layout{% if show_toc %} post-layout--with-toc{% endif %}">
+    {% include "partials/breadcrumbs.html" %}
+
+    {% if show_toc %}
+    <aside class="post-layout__aside">
+      {% include "partials/toc.html" %}
+    </aside>
+    {% endif %}
+
+    <article class="post h-entry">
+      <header class="post__header">
+        <h1 class="post__title p-name">{{ page.title }}</h1>
+        {% if page.description %}
+        <p class="post__lead p-summary">{{ page.description }}</p>
+        {% endif %}
+        {% include "partials/post_meta.html" %}
+      </header>
+
+      <div class="post__content content e-content">
+        {{ page.content }}
+      </div>
+
+      <footer class="post__footer">
+        {% if page.tags %}
+        {% set tags = page.tags %}
+        {% include "partials/tag_list.html" %}
+        {% endif %}
+        {% if page.categories and site.taxonomies.categories is defined %}
+        <p class="post__categories">
+          Filed under
+          {% for name in page.categories %}
+          {% set found = site.taxonomies.categories.terms[name | slugify] %}
+          {% if found %}<a href="{{ url_for(found.url) }}">{{ name }}</a>{% else %}{{ name }}{% endif %}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        {% endif %}
+      </footer>
+    </article>
+
+    <div class="post-after">
+      {% include "partials/post_nav.html" %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ asset('js/toc.js') }}" defer></script>
+{% endblock %}

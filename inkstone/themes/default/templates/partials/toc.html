@@ -1,0 +1,12 @@
+{#
+  Table of contents for the current page. The list itself comes ready-made
+  from the Markdown parser; toc.js highlights the entry being read.
+#}
+{% if page.toc_html %}
+<nav class="toc" aria-labelledby="toc-title" data-toc>
+  <h2 class="toc__title" id="toc-title">On this page</h2>
+  <div class="toc__body">
+    {{ page.toc_html | safe }}
+  </div>
+</nav>
+{% endif %}

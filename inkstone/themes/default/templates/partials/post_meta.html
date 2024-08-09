@@ -1,0 +1,28 @@
+{% import "partials/macros.html" as m %}
+{# The line under a post title: date, last update, reading time, author. #}
+<ul class="post-meta">
+  {% if page.date %}
+  <li class="post-meta__item">
+    {{ m.icon("calendar", 15) }}
+    {{ m.sr("Published") }}
+    {{ m.format_date(page.date, config.params.date_format, "dt-published") }}
+  </li>
+  {% endif %}
+  {% if page.updated and page.updated != page.date %}
+  <li class="post-meta__item post-meta__item--updated">
+    updated {{ m.format_date(page.updated, config.params.date_format, "dt-updated") }}
+  </li>
+  {% endif %}
+  {% if config.params.show_reading_time and page.reading_time %}
+  <li class="post-meta__item">
+    {{ m.icon("clock", 15) }}
+    {{ m.reading_time(page.reading_time) }}
+  </li>
+  {% endif %}
+  {% if page.params.author %}
+  <li class="post-meta__item p-author">by {{ page.params.author }}</li>
+  {% endif %}
+  {% if page.draft %}
+  <li class="post-meta__item"><span class="badge badge--draft">Draft</span></li>
+  {% endif %}
+</ul>
