@@ -40,7 +40,7 @@ _DEFAULTS: dict[str, Any] = {
     "plugins_dir": "plugins",
     "cache_dir": ".inkstone-cache",
     "ignore": ["*.swp", "*~", ".DS_Store"],
-    "plugins": ["reading_time"],
+    "plugins": ["toc", "reading_time"],
     "author": {"name": "", "email": "", "url": ""},
     "build": {
         "drafts": False,

@@ -29,7 +29,7 @@ def test_defaults_without_a_config_file(site):
     assert config.title == "My Site"
     assert config.base_url == "http://localhost:8000/"
     assert config.build.pretty_urls is True
-    assert config.plugins == ["reading_time"]
+    assert config.plugins == ["toc", "reading_time"]
     assert config.taxonomies == {"tags": "tag", "categories": "category"}
     assert config.permalinks == {"posts": "/:year/:month/:slug/"}
 
@@ -40,7 +40,7 @@ def test_default_config_is_a_fresh_copy_each_time():
     first["plugins"].append("related")
     second = default_config()
     assert second["build"]["drafts"] is False
-    assert second["plugins"] == ["reading_time"]
+    assert second["plugins"] == ["toc", "reading_time"]
 
 
 def test_default_config_has_every_documented_section():
