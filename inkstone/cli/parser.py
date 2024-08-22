@@ -93,7 +93,10 @@ def build_parser() -> Parser:
     from . import (
         build,
         clean,
+        config_cmd,
         highlight,
+        list_cmd,
+        new,
         serve,
         version,
     )
@@ -113,9 +116,12 @@ def build_parser() -> Parser:
     shared = global_options(defaults=False)
     # the order they are listed in by --help
     for module in (
+        new,
         build,
         serve,
         clean,
+        config_cmd,
+        list_cmd,
         highlight,
         version,
     ):

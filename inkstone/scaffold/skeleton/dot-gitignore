@@ -1,0 +1,9 @@
+# what inkstone writes: the built site and its build cache
+/public/
+/.inkstone-cache/
+
+# editors and operating systems
+*.swp
+*~
+.DS_Store
+Thumbs.db

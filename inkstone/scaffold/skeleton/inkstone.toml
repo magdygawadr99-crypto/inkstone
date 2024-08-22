@@ -1,0 +1,49 @@
+# Configuration for this site.
+#
+# Only the settings you are most likely to change are here. Run
+# `inkstone config --defaults` to see all of them, and `inkstone config` for
+# what the site ends up with.
+
+title = {{title|json}}
+# Where the site is going to live, with the trailing slash. `inkstone serve`
+# replaces this with the address of the dev server.
+base_url = "http://localhost:8000/"
+description = ""
+language = "en"
+theme = {{theme|json}}
+
+# Plugins run in the order they are listed. These three are the defaults;
+# to add one, keep them and append: "related", "redirects", "archives", ...
+plugins = ["shortcodes", "toc", "reading_time"]
+
+[author]
+name = {{author|json}}
+# email = "me@example.com"
+# url = "https://example.com/about/"
+
+# Smaller files and cache-friendly names for the real thing. The same as
+# passing --minify --fingerprint to `inkstone build`.
+# [build]
+# minify = true
+# fingerprint = true
+
+# Where the pages of a section end up. Tokens: :year :month :day :slug
+# :title :section :filename
+[permalinks]
+posts = "/:year/:month/:slug/"
+
+# The navigation at the top of every page.
+# [[menus.main]]
+# name = "Posts"
+# url = "/posts/"
+# weight = 10
+#
+# [[menus.main]]
+# name = "About"
+# url = "/about/"
+# weight = 20
+
+# Settings for the theme. Anything left out keeps the theme's own default.
+[params]
+# accent = "#0b6e4f"
+# show_toc = true

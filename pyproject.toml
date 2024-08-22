@@ -32,7 +32,7 @@ version = { attr = "inkstone.__version__" }
 include = ["inkstone*"]
 
 [tool.setuptools.package-data]
-inkstone = ["themes/**/*"]
+inkstone = ["themes/**/*", "scaffold/**/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
