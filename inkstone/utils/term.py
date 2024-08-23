@@ -194,3 +194,110 @@ def format_table(
         lines.append(gap.join("-" * width for width in widths))
     lines.extend(render(row) for row in table)
     return "\n".join(lines)
+
+
+class _LiveLine:
+    """Shared plumbing for things that redraw one terminal line in place."""
+
+    def __init__(self, stream=None, enabled: bool | None = None):
+        self.stream = stream if stream is not None else sys.stderr
+        if enabled is None:
+            try:
+                enabled = self.stream.isatty()
+            except (AttributeError, ValueError):
+                enabled = False
+        # when off nothing is drawn at all; a log file full of carriage
+        # returns helps nobody
+        self.enabled = enabled
+        self._width = 0
+
+    def _draw(self, line: str) -> None:
+        if not self.enabled:
+            return
+        # pad with spaces so a shorter line fully covers the previous one
+        width = visible_len(line)
+        self.stream.write("\r" + line + " " * max(self._width - width, 0))
+        self.stream.flush()
+        self._width = width
+
+    def _clear(self) -> None:
+        if self.enabled and self._width:
+            self.stream.write("\r" + " " * self._width + "\r")
+            self.stream.flush()
+        self._width = 0
+
+
+class ProgressBar(_LiveLine):
+    """A one-line text progress bar.
+
+        with ProgressBar(len(pages), label="Rendering") as bar:
+            for page in pages:
+                render(page)
+                bar.update()
+    """
+
+    def __init__(
+        self,
+        total: int,
+        *,
+        label: str = "",
+        width: int = 28,
+        stream=None,
+        enabled: bool | None = None,
+    ):
+        super().__init__(stream, enabled)
+        self.total = max(total, 0)
+        self.count = 0
+        self.label = label
+        self.width = width
+
+    def render(self) -> str:
+        fraction = self.count / self.total if self.total else 1.0
+        filled = int(self.width * fraction)
+        bar = "#" * filled + "-" * (self.width - filled)
+        text = f"[{bar}] {fraction:4.0%} ({self.count}/{self.total})"
+        return f"{self.label} {text}" if self.label else text
+
+    def update(self, step: int = 1) -> None:
+        self.count = min(self.count + step, self.total)
+        self._draw(self.render())
+
+    def finish(self) -> None:
+        self._clear()
+
+    def __enter__(self) -> ProgressBar:
+        self._draw(self.render())
+        return self
+
+    def __exit__(self, *exc_info) -> None:
+        self.finish()
+
+
+class Spinner(_LiveLine):
+    """An activity indicator for work of unknown length.
+
+    There is no thread behind it: call tick() whenever some progress has
+    been made.
+    """
+
+    FRAMES = "|/-\\"
+
+    def __init__(self, label: str = "", *, stream=None, enabled: bool | None = None):
+        super().__init__(stream, enabled)
+        self.label = label
+        self._ticks = 0
+
+    def render(self) -> str:
+        frame = self.FRAMES[self._ticks % len(self.FRAMES)]
+        return f"{frame} {self.label}" if self.label else frame
+
+    def tick(self) -> None:
+        self._draw(self.render())
+        self._ticks += 1
+
+    def stop(self, message: str = "") -> None:
+        """Erase the spinner; ``message`` is printed in its place if given."""
+        self._clear()
+        if message:
+            self.stream.write(message + "\n")
+            self.stream.flush()
