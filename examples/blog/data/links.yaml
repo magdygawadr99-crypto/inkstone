@@ -1,0 +1,27 @@
+# Rendered by templates/partials/link_list.html on the projects page.
+# Each group has a title and a list of links; `note` is optional.
+
+- title: Things inkstone learned from
+  links:
+    - name: CommonMark spec
+      url: https://spec.commonmark.org/
+      note: The appendix on parsing strategy is the best part.
+    - name: Jinja template designer documentation
+      url: https://jinja.palletsprojects.com/en/stable/templates/
+      note: I implemented what this page describes, more or less in order.
+    - name: Pygments, "Write your own lexer"
+      url: https://pygments.org/docs/lexerdevelopment/
+    - name: RFC 6455, The WebSocket Protocol
+      url: https://www.rfc-editor.org/rfc/rfc6455
+
+- title: Tools I use every day and did not write
+  links:
+    - name: ripgrep
+      url: https://github.com/BurntSushi/ripgrep
+      note: The reason I can still find anything.
+    - name: SQLite
+      url: https://sqlite.org/
+      note: "Small, fast, reliable. Choose any three."
+    - name: rsync
+      url: https://rsync.samba.org/
+      note: The entire deploy pipeline of this site.

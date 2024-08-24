@@ -1,0 +1,136 @@
+title = "Wet Ink"
+base_url = "https://wetink.example/"
+description = "Notes from building small software, mostly the software that builds this site."
+language = "en"
+timezone = "+01:00"
+theme = "default"
+
+# The first three are the defaults; the rest are switched on for this site.
+plugins = [
+  "shortcodes",
+  "toc",
+  "reading_time",
+]
+
+[author]
+name = "Magdy Gawad"
+email = "magdy@wetink.example"
+url = "https://wetink.example/about/"
+
+[build]
+# Left off here so `inkstone serve` output stays readable; the deploy script
+# passes --minify --fingerprint instead.
+minify = false
+fingerprint = false
+
+[markdown]
+smart = true
+# Light code blocks on the light page; params.highlight_style_dark below
+# takes over in dark mode.
+highlight_style = "paper"
+
+[permalinks]
+posts = "/:year/:month/:slug/"
+projects = "/projects/:slug/"
+
+[taxonomies]
+tags = "tag"
+categories = "category"
+
+[pagination]
+per_page = 6
+
+[feeds]
+rss = true
+atom = true
+json = true
+limit = 15
+sections = ["posts"]
+full_content = true
+
+[search]
+enabled = true
+fields = { title = 3.0, tags = 2.0, body = 1.0 }
+
+[sitemap]
+changefreq = "monthly"
+
+[robots]
+disallow = ["/search/"]
+
+[server]
+port = 8000
+open = false
+
+[[menus.main]]
+name = "Posts"
+url = "/posts/"
+weight = 10
+
+[[menus.main]]
+name = "Projects"
+url = "/projects/"
+weight = 20
+
+[[menus.main]]
+name = "Tags"
+url = "/tags/"
+weight = 30
+
+[[menus.main]]
+name = "About"
+url = "/about/"
+weight = 40
+
+[[menus.footer]]
+name = "Archive"
+url = "/archive/"
+weight = 10
+
+[[menus.footer]]
+name = "RSS"
+url = "/rss.xml"
+weight = 20
+
+# Theme settings. Anything not listed keeps the default from the theme's
+# own theme.toml.
+[params]
+accent = "#8c3b2a"
+accent_dark = "#f0957a"
+highlight_style_dark = "dusk"
+date_format = "%-d %B %Y"
+show_toc = true
+show_reading_time = true
+custom_css = ["css/custom.css"]
+
+[params.social]
+github = "https://git.wetink.example/magdy"
+mastodon = "https://social.wetink.example/@magdy"
+email = "magdy@wetink.example"
+rss = true
+
+# Per-plugin settings. Only the ones that differ from a plugin's defaults.
+[plugin.toc]
+max_level = 3
+anchors = true
+
+[plugin.reading_time]
+words_per_minute = 200
+code_blocks = "separate"
+
+[plugin.related]
+limit = 3
+sections = ["posts"]
+
+[plugin.archives]
+url = "/archive/"
+title = "Archive"
+
+[plugin.external_links]
+rel = "noopener"
+target_blank = false
+
+# Old addresses that have no page of their own to carry an `aliases` entry.
+[plugin.redirects.map]
+"/feed/" = "/rss.xml"
+"/colophon/" = "/about/"

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{#
+  Site-level override: the "projects" section gets a grid of cards instead
+  of the theme's post list. The status, language and repository of each
+  project come from data/projects.json, keyed by the page slug.
+#}
+{% block content %}
+{% include "partials/breadcrumbs.html" %}
+<header class="page-header">
+  <h1 class="page-header__title">{{ page.title }}</h1>
+  {% if page.description %}
+  <p class="page-header__lead">{{ page.description }}</p>
+  {% endif %}
+</header>
+
+{% if page.content %}
+<div class="section-intro content">
+  {{ page.content }}
+</div>
+{% endif %}
+
+<ul class="project-grid">
+  {% for project in pages %}
+  {% set info = site.data.projects[project.slug] %}
+  <li class="project-card">
+    <h2 class="project-card__title">
+      <a href="{{ url_for(project.url) }}">{{ project.title }}</a>
+    </h2>
+    {% if info %}
+    <p class="project-card__facts">
+      <span class="project-card__status project-card__status--{{ info.status }}">{{ info.status }}</span>
+      <span>{{ info.language }}</span>
+      <span>since {{ info.since }}</span>
+    </p>
+    {% endif %}
+    <p class="project-card__text">{{ project.description }}</p>
+    {% if info and info.repo %}
+    <p class="project-card__links">
+      <a href="{{ url_for(project.url) }}">Read more</a>
+      <a href="{{ info.repo }}" rel="noopener">Source</a>
+    </p>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+{% include "partials/pagination.html" %}
+
+{% include "partials/link_list.html" %}
+{% endblock %}

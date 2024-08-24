@@ -1,0 +1,107 @@
+/*
+ * Site-specific additions, loaded after the theme's main.css through
+ * params.custom_css. Only what the theme has no opinion about: the project
+ * cards and the link list from templates/.
+ */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+}
+
+.project-card__title {
+  font-size: var(--step-1);
+}
+
+.project-card__title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.project-card__title a:hover {
+  color: var(--accent);
+}
+
+.project-card__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.project-card__status {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.project-card__status--active {
+  color: var(--tip);
+}
+
+.project-card__status--maintained {
+  color: var(--note);
+}
+
+.project-card__status--finished {
+  color: var(--text-muted);
+}
+
+.project-card__text {
+  flex: 1;
+  font-size: var(--step--1);
+}
+
+.project-card__links {
+  display: flex;
+  gap: 1rem;
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.link-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 2rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.link-list__title {
+  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.link-list__items {
+  padding: 0;
+  list-style: none;
+}
+
+.link-list__items li + li {
+  margin-top: 0.6rem;
+}
+
+.link-list__note {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}

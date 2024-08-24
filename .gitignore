@@ -7,8 +7,10 @@ __pycache__/
 .venv/
 venv/
 
+# build output of the example site and scratch sites
 public/
 .inkstone-cache/
+/scratch/
 
 .vscode/
 .idea/

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 190" width="520" height="190" role="img" aria-labelledby="path-flow-title">
+  <title id="path-flow-title">How a source path becomes a URL and an output path</title>
+  <style>
+    text { font: 13px ui-monospace, Consolas, monospace; fill: #23211e; }
+    .label { font: 11px system-ui, sans-serif; fill: #6b665e; }
+    .box { fill: #fbfaf7; stroke: #c2bdb1; stroke-width: 1.5; }
+    .posix { stroke: #a5371f; }
+    .arrow { fill: none; stroke: #6b665e; stroke-width: 1.5; marker-end: url(#tip); }
+  </style>
+  <defs>
+    <marker id="tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6b665e"/>
+    </marker>
+  </defs>
+
+  <rect class="box" x="10" y="70" width="170" height="50" rx="6"/>
+  <text x="95" y="92" text-anchor="middle">posts\hello.md</text>
+  <text class="label" x="95" y="110" text-anchor="middle">source file (OS path)</text>
+
+  <rect class="box posix" x="230" y="70" width="120" height="50" rx="6"/>
+  <text x="290" y="92" text-anchor="middle">posts/hello</text>
+  <text class="label" x="290" y="110" text-anchor="middle">as_posix()</text>
+
+  <rect class="box posix" x="400" y="15" width="110" height="50" rx="6"/>
+  <text x="455" y="37" text-anchor="middle">/posts/hello/</text>
+  <text class="label" x="455" y="55" text-anchor="middle">URL</text>
+
+  <rect class="box" x="400" y="125" width="110" height="50" rx="6"/>
+  <text x="455" y="147" text-anchor="middle">index.html</text>
+  <text class="label" x="455" y="165" text-anchor="middle">written to disk</text>
+
+  <path class="arrow" d="M180 95 H228"/>
+  <path class="arrow" d="M350 85 C375 85 375 40 398 40"/>
+  <path class="arrow" d="M350 105 C375 105 375 150 398 150"/>
+</svg>

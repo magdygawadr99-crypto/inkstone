@@ -1,0 +1,23 @@
+{
+  "inkstone": {
+    "status": "active",
+    "language": "Python",
+    "since": 2024,
+    "repo": "https://github.com/magdygawadr99-crypto/inkstone",
+    "license": "MIT"
+  },
+  "tidewatch": {
+    "status": "maintained",
+    "language": "Python",
+    "since": 2022,
+    "repo": "https://git.wetink.example/magdy/tidewatch",
+    "license": "MIT"
+  },
+  "dotfiles": {
+    "status": "finished",
+    "language": "Shell",
+    "since": 2015,
+    "repo": "https://git.wetink.example/magdy/dotfiles",
+    "license": "Unlicense"
+  }
+}

@@ -1,0 +1,23 @@
+{#
+  Not part of the theme: a partial of this site's own. Renders the groups of
+  links in data/links.yaml. Include it from any template.
+#}
+{% if site.data.links %}
+<section class="link-list" aria-label="Links">
+  {% for group in site.data.links %}
+  <div class="link-list__group">
+    <h2 class="link-list__title">{{ group.title }}</h2>
+    <ul class="link-list__items">
+      {% for link in group.links %}
+      <li>
+        <a href="{{ link.url }}" rel="noopener">{{ link.name }}</a>
+        {% if link.note %}
+        <span class="link-list__note">{{ link.note }}</span>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
