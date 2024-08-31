@@ -2,6 +2,15 @@
 
 Not every commit, just what you would notice as a user.
 
+## 0.4.0 (2024-08-31)
+
+- `inkstone new site`, `new post`, `new page`, `list`, `config` and
+  `highlight-css`.
+- Plugins, with three to start: `shortcodes`, `toc`, `reading_time`.
+- Highlighter: C, C++, Go, Rust, Java, SQL, diff, Markdown, Dockerfile and
+  Makefile lexers; three more styles.
+- An example site in `examples/blog`.
+
 ## 0.3.0 (2024-07-27)
 
 - The build was rewritten. It now runs in phases, knows about sections,
