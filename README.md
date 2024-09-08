@@ -5,8 +5,9 @@ A static site generator that fits in my head.
 I wanted to move my blog off a generator that pulled in ~40 packages and broke
 every second upgrade, so I wrote my own. inkstone has **no runtime
 dependencies**: the Markdown parser, the template engine, the syntax
-highlighter, the YAML reader and the dev server are all in this repo. That is
-obviously more code than `pip install` would have been, but it has been a good way to finally
+highlighter, the YAML reader and the dev server (including the websocket bit
+for live reload) are all in this repo. That is obviously more
+code than `pip install` would have been, but it has been a good way to finally
 learn how these things work, and nothing changes underneath me any more.
 
 It is not trying to compete with Hugo or Pelican. It builds my sites, it is
@@ -21,7 +22,7 @@ reasonably fast, and the code is meant to be readable.
 - Sections, tags/categories (any taxonomy really), pagination, page bundles
 - RSS, Atom and JSON feeds, sitemap, robots.txt
 - Incremental builds: only pages whose inputs changed get rendered again
-- `inkstone serve`, which rebuilds when a file changes
+- `inkstone serve` with live reload and an error overlay in the browser
 - CSS/JS/HTML minification and fingerprinted asset names
 - Plugins (shortcodes, table of contents, reading time, or your own)
 
@@ -44,8 +45,8 @@ inkstone new post "Hello world"
 inkstone serve
 ```
 
-Then open http://127.0.0.1:8000/. Edit something under `content/` and reload
-the page. When you are happy:
+Then open http://127.0.0.1:8000/. Edit something under `content/` and the
+browser reloads. When you are happy:
 
 ```
 inkstone build --minify --fingerprint --base-url https://example.com/
@@ -124,7 +125,7 @@ inkstone/
   build/       the builder, incremental cache, link checker
   assets/      minifiers, fingerprinting, image sizes
   feeds/       rss / atom / json feed / sitemap
-  server/      dev server, file watcher
+  server/      dev server, websocket, file watcher
   plugins/     plugin manager and the built-in plugins
   cli/         the `inkstone` command
   themes/      the default theme
