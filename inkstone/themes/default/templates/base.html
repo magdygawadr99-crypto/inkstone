@@ -12,6 +12,7 @@
   {% if config.markdown.highlight %}
   <link rel="stylesheet" href="{{ asset('css/highlight.css') }}">
   {% endif %}
+  <link rel="stylesheet" href="{{ asset('css/print.css') }}" media="print">
   {% endblock %}
   {% block custom_css %}
   {% if config.params.custom_css %}
@@ -20,6 +21,8 @@
   {% endfor %}
   {% endif %}
   {% endblock %}
+  {# Not deferred on purpose: it sets data-theme before the first paint. #}
+  <script src="{{ asset('js/theme.js') }}"></script>
   {% block head_extra %}{% endblock %}
 </head>
 <body class="kind-{{ page.kind }}{% if page.draft %} is-draft{% endif %}">
@@ -43,6 +46,7 @@
 
   {% block scripts %}
   <script src="{{ asset('js/nav.js') }}" defer></script>
+  <script src="{{ asset('js/code.js') }}" defer></script>
   {% endblock %}
 </body>
 </html>

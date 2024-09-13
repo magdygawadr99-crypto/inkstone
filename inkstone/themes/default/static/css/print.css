@@ -1,0 +1,202 @@
+/*
+ * Print styles, loaded with media="print". Paper is white and has no hover:
+ * drop the chrome, use black ink, and spell out where links go.
+ */
+
+@page {
+  margin: 2cm 2.2cm;
+}
+
+:root,
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  --bg: #fff;
+  --bg-raised: #fff;
+  --bg-sunken: #fff;
+  --text: #000;
+  --text-muted: #444;
+  --border: #bbb;
+  --border-strong: #888;
+  --accent: #000;
+  --code-bg: #fff;
+  --code-text: #000;
+  --mark: #eee;
+  --shadow: none;
+}
+
+html {
+  font-size: 11pt;
+}
+
+body {
+  display: block;
+  background: #fff;
+  color: #000;
+  font-family: var(--font-serif);
+  line-height: 1.45;
+}
+
+.skip-link,
+.site-header,
+.site-footer,
+.site-nav,
+.nav-toggle,
+.theme-toggle,
+.search-box,
+.search-form,
+.breadcrumbs,
+.pagination,
+.post-nav,
+.related,
+.post-layout__aside,
+.code-copy,
+.code-block__lang,
+.footnote-popover,
+.footnote-backref,
+.heading-anchor,
+.not-found__actions,
+.content .video,
+.content .embed,
+.content iframe {
+  display: none !important;
+}
+
+.container,
+.container--wide {
+  width: auto;
+  max-width: none;
+}
+
+.site-main {
+  padding: 0;
+}
+
+.post-layout,
+.post-layout--with-toc {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-sans);
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.post__title,
+.page-header__title {
+  font-size: 22pt;
+}
+
+p,
+li,
+blockquote {
+  orphans: 3;
+  widows: 3;
+}
+
+pre,
+blockquote,
+figure,
+table,
+img,
+.admonition,
+.post-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+a {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* Show the address after external links in the article body. Internal links
+   and bare URLs would only add noise. */
+.content a[href^="http"]::after {
+  content: " (" attr(href) ")";
+  font-size: 0.85em;
+  font-weight: normal;
+  word-break: break-all;
+}
+
+.content a[href^="http"]:has(> img)::after,
+.content a[href^="http"]:has(> code)::after {
+  content: none;
+}
+
+/* Long lines wrap on paper; nobody can scroll a printout. */
+pre,
+.highlight pre {
+  overflow: visible;
+  border: 1px solid #bbb;
+  background: #fff !important;
+  color: #000 !important;
+  font-size: 8.5pt;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.highlight {
+  border: 0;
+  background: none !important;
+}
+
+.highlight * {
+  background: none !important;
+  color: #000 !important;
+}
+
+pre .line.hl,
+pre .hll {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border-left: 0;
+  font-weight: bold;
+}
+
+.content table {
+  display: table;
+  width: 100%;
+  overflow: visible;
+}
+
+.content th,
+.content td {
+  border: 1px solid #bbb;
+}
+
+.content .admonition,
+.content .note,
+.content details {
+  border: 1px solid #888;
+  background: none;
+}
+
+/* Closed <details> would hide their content from the printout. */
+.content details:not([open]) > :not(summary) {
+  display: block;
+}
+
+.tag {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.tag-list {
+  gap: 0.2rem 0.8rem;
+}
+
+.post__footer,
+.content .footnotes {
+  border-top: 1px solid #bbb;
+}
+
+.is-draft .post__title::after {
+  content: " (draft)";
+  font-weight: normal;
+}
