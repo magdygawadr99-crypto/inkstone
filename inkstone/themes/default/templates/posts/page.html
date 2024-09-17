@@ -28,6 +28,10 @@
         {% include "partials/post_meta.html" %}
       </header>
 
+      {% if page.series is defined and page.series and page.series.pages %}
+      {% include "partials/series.html" %}
+      {% endif %}
+
       <div class="post__content content e-content">
         {{ page.content }}
       </div>

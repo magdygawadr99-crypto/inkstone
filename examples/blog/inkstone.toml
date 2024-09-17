@@ -10,6 +10,7 @@ plugins = [
   "shortcodes",
   "toc",
   "reading_time",
+  "series",
 ]
 
 [author]

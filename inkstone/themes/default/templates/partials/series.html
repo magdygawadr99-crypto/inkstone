@@ -1,0 +1,26 @@
+{#
+  "Part 2 of 4 in the series ..." box. `page.series` is set by the "series"
+  plugin: the series name, its pages in reading order, and where this page
+  sits among them. The caller checks that it is there.
+#}
+<aside class="series" aria-labelledby="series-title">
+  <p class="series__title" id="series-title">
+    {% if page.series.index is defined and page.series.total is defined %}
+    Part {{ page.series.index }} of {{ page.series.total }} in the series
+    {% else %}
+    Part of the series
+    {% endif %}
+    <strong>{{ page.series.title | default(page.series.name) }}</strong>
+  </p>
+  <ol class="series__list">
+    {% for part in page.series.pages %}
+    <li class="series__item{% if part.url == page.url %} series__item--current{% endif %}">
+      {% if part.url == page.url %}
+      <span aria-current="page">{{ part.title }}</span>
+      {% else %}
+      <a href="{{ url_for(part.url) }}">{{ part.title }}</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</aside>
