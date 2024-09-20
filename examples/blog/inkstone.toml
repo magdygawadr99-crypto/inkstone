@@ -12,6 +12,7 @@ plugins = [
   "reading_time",
   "series",
   "archives",
+  "external_links",
 ]
 
 [author]
