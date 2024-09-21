@@ -13,6 +13,7 @@ plugins = [
   "series",
   "archives",
   "external_links",
+  "footnote_previews",
 ]
 
 [author]
