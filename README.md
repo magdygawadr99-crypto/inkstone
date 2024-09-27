@@ -24,7 +24,7 @@ reasonably fast, and the code is meant to be readable.
 - Incremental builds: only pages whose inputs changed get rendered again
 - `inkstone serve` with live reload and an error overlay in the browser
 - CSS/JS/HTML minification and fingerprinted asset names
-- Plugins (shortcodes, table of contents, reading time, or your own)
+- Plugins (shortcodes, table of contents, series, archives, ... or your own)
 
 ## Install
 
