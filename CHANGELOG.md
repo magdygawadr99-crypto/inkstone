@@ -2,6 +2,17 @@
 
 Not every commit, just what you would notice as a user.
 
+## 0.5.0 (2024-09-28)
+
+- Live reload. `inkstone serve` now pushes changes to the browser over a
+  websocket, swaps stylesheets without a full reload and shows build
+  errors as an overlay on the page.
+- The dev server is new as well: clean URLs, range requests, a proper 404.
+- New plugins: `series`, `archives`, `external_links`, `image_dims`,
+  `minify`, `drafts_banner`, `footnote_previews`, `git_dates`.
+- Default theme: dark mode switch, copy buttons on code blocks, print
+  stylesheet.
+
 ## 0.4.0 (2024-08-31)
 
 - `inkstone new site`, `new post`, `new page`, `list`, `config` and
