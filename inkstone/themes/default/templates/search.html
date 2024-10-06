@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{#
+  The search results page. Nothing picks this template automatically: give a
+  page `template: search.html` in its front matter (content/search.md is the
+  usual place) and point params.search_url at it.
+#}
+{% block head_extra %}
+<meta name="robots" content="noindex, follow">
+{% endblock %}
+
+{% block content %}
+{% import "partials/macros.html" as m %}
+<header class="page-header">
+  <h1 class="page-header__title">{{ page.title or "Search" }}</h1>
+</header>
+
+{% if config.search.enabled %}
+<form class="search-form" role="search" method="get" action="{{ url_for(page.url) }}" data-search-form>
+  <label class="visually-hidden" for="search-page-input">Search {{ site.title }}</label>
+  <input class="search-form__input" id="search-page-input" type="search" name="q"
+         placeholder="Type a word or two" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <button class="button" type="submit">{{ m.icon("search", 16) }} Search</button>
+</form>
+
+<p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+
+<ol class="search-results" id="search-results"
+    data-search-page
+    data-search-script="{{ asset('js/inkstone-search.js') }}"
+    data-search-index="{{ url_for('/search-index.json') }}"></ol>
+
+<noscript>
+  <p class="empty">
+    Search runs in the browser and needs JavaScript. The
+    <a href="{{ url_for('/') }}">front page</a> lists everything recent.
+  </p>
+</noscript>
+{% else %}
+<p class="empty">Search is turned off for this site.</p>
+{% endif %}
+
+{% if page.content %}
+<div class="content search-help">
+  {{ page.content }}
+</div>
+{% endif %}
+{% endblock %}

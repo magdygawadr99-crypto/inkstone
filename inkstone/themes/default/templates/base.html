@@ -48,6 +48,9 @@
   <script src="{{ asset('js/nav.js') }}" defer></script>
   <script src="{{ asset('js/code.js') }}" defer></script>
   <script src="{{ asset('js/footnotes.js') }}" defer></script>
+  {% if config.search.enabled %}
+  <script src="{{ asset('js/search-ui.js') }}" defer></script>
+  {% endif %}
   {% endblock %}
 </body>
 </html>

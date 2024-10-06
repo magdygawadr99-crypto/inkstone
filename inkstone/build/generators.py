@@ -1,4 +1,4 @@
-"""The files a build writes besides pages: feeds, sitemap, robots.txt."""
+"""The files a build writes besides pages: feeds, sitemap, robots.txt, search."""
 
 from __future__ import annotations
 
@@ -16,6 +16,8 @@ from ..utils.hashing import hash_text, stable_hash
 from ..utils.paths import url_join
 
 HIGHLIGHT_CSS = "css/highlight.css"
+SEARCH_SCRIPT = "js/inkstone-search.js"
+SEARCH_INDEX = "search-index.json"
 SITEMAP = "sitemap.xml"
 ROBOTS = "robots.txt"
 NOT_FOUND = "404.html"
@@ -68,6 +70,10 @@ def generated_assets(config) -> dict[str, str]:
     files: dict[str, str] = {}
     if config.markdown.highlight:
         files[HIGHLIGHT_CSS] = highlight_css(config)
+    if config.search.enabled:
+        from ..search import client_script
+
+        files[SEARCH_SCRIPT] = client_script()
     return files
 
 
@@ -267,3 +273,61 @@ def build_robots(site) -> dict[str, str]:
         return {ROBOTS: feeds.render_robots([rule], sitemaps=sitemaps)}
     except feeds.FeedError as exc:
         raise BuildError(f"robots.disallow: {exc.message}", path=config.path) from None
+
+
+def search_pages(site) -> list[Page]:
+    """Pages that go into the search index: the ones written by hand."""
+    return [
+        page
+        for page in sorted(site.pages, key=lambda page: page.url)
+        if page.params.get("search") is not False
+    ]
+
+
+def search_key(site, url_for) -> str:
+    """Changes whenever the index would; lets an unchanged index be skipped."""
+    config = site.config
+    rows = [
+        [url_for(page.url), page.title, list(page.tags), hash_text(str(page.content))]
+        for page in search_pages(site)
+    ]
+    fields = {name: float(boost) for name, boost in config.search.fields.items()}
+    return stable_hash([__version__, fields, config.language, rows])
+
+
+def build_search_index(site, url_for) -> str:
+    """The JSON the browser client loads. ``url_for`` adds the base path."""
+    from ..search import IndexBuilder, SearchError
+
+    config = site.config
+    fields = {name: float(boost) for name, boost in config.search.fields.items()}
+    try:
+        builder = IndexBuilder(
+            fields,
+            language=config.language or "en",
+            store=("title", "url", "summary", "date"),
+        )
+        for page in search_pages(site):
+            url = url_for(page.url)
+            summary = page.description or textutil.strip_html(str(page.summary))
+            document = {
+                "title": page.title,
+                "tags": list(page.tags),
+                "categories": list(page.categories),
+                "description": page.description,
+                "body": textutil.strip_html(str(page.content)),
+            }
+            for name in fields:
+                # any other field name is looked up in the front matter
+                if name not in document:
+                    document[name] = page.params.get(name)
+            stored = {
+                "title": page.title,
+                "url": url,
+                "summary": textutil.truncate_chars(summary, 200),
+                "date": page.date.date().isoformat() if page.date else None,
+            }
+            builder.add(url, document, stored)
+        return builder.build().to_json()
+    except SearchError as exc:
+        raise BuildError(f"search index: {exc.message}", path=config.path) from None

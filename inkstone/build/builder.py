@@ -813,6 +813,25 @@ class Builder:
             deps = [depgraph.CONFIG] if output == generators.ROBOTS else sources
             cache.record(output, hash_text(text), kind="file", deps=deps)
 
+        output = generators.SEARCH_INDEX
+        if self.config.search.enabled and not self._static_wins(output):
+            key = generators.search_key(site, self._helpers.url_for)
+            fresh = self.incremental and cache.is_fresh(output, key)
+            if fresh and writer.exists(output):
+                # tokenising every page again is the slowest part of a
+                # rebuild in which nothing was edited
+                writer.keep(output)
+            else:
+                text = generators.build_search_index(site, self._helpers.url_for)
+                if writer.write(output, text):
+                    report.files_written += 1
+            deps = [
+                depgraph.node(depgraph.SOURCE, page.source_path)
+                for page in generators.search_pages(site)
+                if page.source_path
+            ]
+            cache.record(output, key, kind="file", deps=deps)
+
     def _write_plugin_files(self, writer: OutputWriter, report) -> None:
         for item in self.plugins.collect("extra_files", self.site):
             try:

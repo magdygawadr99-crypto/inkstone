@@ -5,8 +5,8 @@ A static site generator that fits in my head.
 I wanted to move my blog off a generator that pulled in ~40 packages and broke
 every second upgrade, so I wrote my own. inkstone has **no runtime
 dependencies**: the Markdown parser, the template engine, the syntax
-highlighter, the YAML reader and the dev server (including the websocket bit
-for live reload) are all in this repo. That is obviously more
+highlighter, the YAML reader, the dev server (including the websocket bit for
+live reload) and the search index are all in this repo. That is obviously more
 code than `pip install` would have been, but it has been a good way to finally
 learn how these things work, and nothing changes underneath me any more.
 
@@ -21,6 +21,7 @@ reasonably fast, and the code is meant to be readable.
 - Syntax highlighting for ~20 languages at build time (no JS needed)
 - Sections, tags/categories (any taxonomy really), pagination, page bundles
 - RSS, Atom and JSON feeds, sitemap, robots.txt
+- Client-side search from a prebuilt index
 - Incremental builds: only pages whose inputs changed get rendered again
 - `inkstone serve` with live reload and an error overlay in the browser
 - CSS/JS/HTML minification and fingerprinted asset names
@@ -125,6 +126,7 @@ inkstone/
   build/       the builder, incremental cache, link checker
   assets/      minifiers, fingerprinting, image sizes
   feeds/       rss / atom / json feed / sitemap
+  search/      index builder + the browser client
   server/      dev server, websocket, file watcher
   plugins/     plugin manager and the built-in plugins
   cli/         the `inkstone` command

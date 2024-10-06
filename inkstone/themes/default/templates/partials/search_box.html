@@ -1,0 +1,18 @@
+{% import "partials/macros.html" as m %}
+{#
+  The header search box. Without JavaScript it is a plain GET form that lands
+  on the search page; search-ui.js upgrades it to search as you type. The
+  client script and the index are only fetched once the box is first used.
+#}
+<form class="search-box" role="search" method="get" action="{{ url_for(config.params.search_url or '/search/') }}"
+      data-search
+      data-search-script="{{ asset('js/inkstone-search.js') }}"
+      data-search-index="{{ url_for('/search-index.json') }}">
+  <label class="visually-hidden" for="search-box-input">Search {{ site.title }}</label>
+  <span class="search-box__icon">{{ m.icon("search", 16) }}</span>
+  <input class="search-box__input" id="search-box-input" type="search" name="q"
+         placeholder="Search" autocomplete="off" autocapitalize="off" spellcheck="false"
+         aria-controls="search-box-results">
+  <kbd class="search-box__hint" aria-hidden="true">/</kbd>
+  <div class="search-box__results" id="search-box-results" aria-live="polite" hidden></div>
+</form>

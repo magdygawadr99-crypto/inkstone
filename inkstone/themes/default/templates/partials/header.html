@@ -58,6 +58,9 @@
       </ul>
 
       <div class="site-nav__tools">
+        {% if config.search.enabled %}
+        {% include "partials/search_box.html" %}
+        {% endif %}
         {% if config.params.show_theme_toggle %}
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme" hidden>
           <span class="theme-toggle__icon theme-toggle__icon--light">{{ m.icon("sun") }}</span>

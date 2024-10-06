@@ -20,6 +20,9 @@
 
   <p class="not-found__actions">
     <a class="button" href="{{ url_for('/') }}">{{ m.icon("arrow-left", 16) }} Back to the front page</a>
+    {% if config.search.enabled %}
+    <a class="button button--quiet" href="{{ url_for(config.params.search_url or '/search/') }}">{{ m.icon("search", 16) }} Search</a>
+    {% endif %}
   </p>
 </section>
 
