@@ -55,6 +55,10 @@
 
     <div class="post-after">
       {% include "partials/post_nav.html" %}
+
+      {% if page.related is defined and page.related %}
+      {% include "partials/related.html" %}
+      {% endif %}
     </div>
   </div>
 </div>

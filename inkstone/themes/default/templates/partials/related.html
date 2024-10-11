@@ -1,0 +1,18 @@
+{% import "partials/macros.html" as m %}
+{#
+  Related posts. `page.related` only exists when the "related" plugin is
+  enabled, so the caller checks for it before including this.
+#}
+<aside class="related" aria-labelledby="related-title">
+  <h2 class="related__title" id="related-title">Related posts</h2>
+  <ul class="related__list">
+    {% for other in page.related %}
+    <li class="related__item">
+      <a class="related__link" href="{{ url_for(other.url) }}">{{ other.title }}</a>
+      {% if other.date %}
+      {{ m.format_date(other.date, config.params.date_format, "related__date") }}
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</aside>

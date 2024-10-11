@@ -11,6 +11,7 @@ plugins = [
   "toc",
   "reading_time",
   "series",
+  "related",
   "archives",
   "external_links",
   "footnote_previews",
