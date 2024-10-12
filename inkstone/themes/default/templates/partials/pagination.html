@@ -35,7 +35,7 @@
   <p class="pagination__summary">Page {{ paginator.page }} of {{ paginator.pages }}</p>
 
   {% if paginator.has_next %}
-  <a class="pagination__step pagination__step--next" href="{{ url_for(paginator.url) }}" rel="next">
+  <a class="pagination__step pagination__step--next" href="{{ url_for(paginator.next_url) }}" rel="next">
     <span>Next</span>{{ m.icon("arrow-right", 16) }}
   </a>
   {% else %}
