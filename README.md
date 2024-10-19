@@ -93,7 +93,8 @@ base_url = "https://example.com/"
 name = "Me"
 ```
 
-`inkstone config --defaults` prints every option with its default value.
+`inkstone config --defaults` prints every option with its default value, and
+[docs/configuration.md](docs/configuration.md) explains them.
 
 ## Commands
 
