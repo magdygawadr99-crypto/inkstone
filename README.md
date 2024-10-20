@@ -108,6 +108,13 @@ name = "Me"
 | `inkstone config` | show the resolved configuration |
 | `inkstone clean` | remove output and cache |
 
+## Documentation
+
+- [Getting started](docs/getting-started.md)
+- [Content and front matter](docs/content.md)
+- [Configuration](docs/configuration.md)
+- [Markdown reference](docs/markdown.md)
+
 ## Development
 
 ```
