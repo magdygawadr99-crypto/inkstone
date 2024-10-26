@@ -2,6 +2,14 @@
 
 Not every commit, just what you would notice as a user.
 
+## 0.6.0 (2024-10-26)
+
+- Search. The build writes `search-index.json` and the default theme has a
+  search box and a results page. No server involved; see `docs/search.md`.
+- New plugin: `related` (related posts by shared tags and text similarity).
+- Documentation in `docs/`.
+- Fixed: "next" on the last page of a paginated list linked to itself.
+
 ## 0.5.0 (2024-09-28)
 
 - Live reload. `inkstone serve` now pushes changes to the browser over a
