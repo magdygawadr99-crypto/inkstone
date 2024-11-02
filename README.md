@@ -112,7 +112,9 @@ name = "Me"
 
 - [Getting started](docs/getting-started.md)
 - [Content and front matter](docs/content.md)
+- [Templates](docs/templates.md)
 - [Configuration](docs/configuration.md)
+- [Plugins](docs/plugins.md)
 - [Markdown reference](docs/markdown.md)
 
 ## Development
