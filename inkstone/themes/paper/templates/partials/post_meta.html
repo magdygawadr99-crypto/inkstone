@@ -1,0 +1,16 @@
+{% import "partials/macros.html" as m %}
+{# One plain line under the title instead of the default icon row. #}
+<p class="post-meta">
+  {% if page.date %}
+  {{ m.format_date(page.date, config.params.date_format, "dt-published") }}
+  {% endif %}
+  {% if page.updated and page.updated != page.date %}
+  (revised {{ m.format_date(page.updated, config.params.date_format, "dt-updated") }})
+  {% endif %}
+  {% if config.params.show_reading_time and page.reading_time %}
+  · {{ page.reading_time }} min
+  {% endif %}
+  {% if page.draft %}
+  · draft
+  {% endif %}
+</p>

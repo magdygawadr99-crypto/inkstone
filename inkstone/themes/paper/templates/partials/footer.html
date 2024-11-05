@@ -1,0 +1,17 @@
+<footer class="site-footer">
+  <p>
+    {% if config.params.footer_text %}
+    {{ config.params.footer_text | safe }}
+    {% else %}
+    &copy; {{ now | date("%Y") }} {{ site.author.name or site.title }}
+    {% endif %}
+    {% if config.feeds.rss %}
+    · <a href="{{ url_for('/rss.xml') }}">RSS</a>
+    {% elif config.feeds.atom %}
+    · <a href="{{ url_for('/atom.xml') }}">Atom</a>
+    {% endif %}
+    {% if config.params.social and config.params.social.email %}
+    · <a href="mailto:{{ config.params.social.email }}">Email</a>
+    {% endif %}
+  </p>
+</footer>

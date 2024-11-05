@@ -1,0 +1,26 @@
+{# No menu button, no search box, no theme switch: a title and a row of links. #}
+<header class="site-header">
+  <a class="site-header__title" href="{{ url_for('/') }}" rel="home">{{ site.title }}</a>
+  {% if site.menus.main or config.search.enabled %}
+  <nav class="site-nav" aria-label="Main">
+    <ul class="site-nav__list">
+      {% for item in site.menus.main %}
+      <li>
+        {% if "://" in item.url %}
+        <a href="{{ item.url }}" rel="noopener">{{ item.name }}</a>
+        {% elif page.url == item.url %}
+        <a href="{{ url_for(item.url) }}" aria-current="page">{{ item.name }}</a>
+        {% elif section is defined and section and section.url == item.url %}
+        <a href="{{ url_for(item.url) }}" aria-current="true">{{ item.name }}</a>
+        {% else %}
+        <a href="{{ url_for(item.url) }}">{{ item.name }}</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+      {% if config.search.enabled %}
+      <li><a href="{{ url_for(config.params.search_url or '/search/') }}">Search</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</header>

@@ -1,0 +1,751 @@
+/*
+ * paper: one column, one typeface, as little as possible.
+ *
+ * This stylesheet stands alone; the default theme's main.css is not loaded.
+ * The markup mostly comes from the default templates though, so the class
+ * names below are theirs.
+ */
+
+:root {
+  color-scheme: light dark;
+  --bg: #fdfcf8;
+  --text: #1c1b19;
+  --muted: #6a665f;
+  --rule: #d9d5cb;
+  --accent: #8a2f1b;
+  --code-bg: #f4f2ec;
+  --column: 34rem;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+    "Georgia Pro", Georgia, serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161514;
+    --text: #dfdbd2;
+    --muted: #9c978d;
+    --rule: #37352f;
+    --accent: #e39a82;
+    --code-bg: #1f1e1c;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  line-height: 1.6;
+  font-variant-numeric: oldstyle-nums;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.sheet {
+  width: min(100% - 2.5rem, var(--column));
+  margin-inline: auto;
+  padding-block: 2.5rem 4rem;
+}
+
+/* Wrappers from the default templates that have no job in a single column. */
+.container,
+.container--wide,
+.post-layout {
+  display: block;
+  width: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+#main:focus {
+  outline: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  padding: 0.3rem 0.7rem;
+  background: var(--text);
+  color: var(--bg);
+  transform: translateY(-120%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 2em 0 0.5em;
+  font-weight: 600;
+  line-height: 1.25;
+  hyphens: manual;
+  text-wrap: balance;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 1.7rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+h3,
+h4 {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+p,
+ul,
+ol,
+dl,
+pre,
+table,
+figure,
+blockquote {
+  margin: 0 0 1.1em;
+}
+
+/* Header and footer */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-header__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.site-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.site-nav__list a {
+  text-decoration: none;
+}
+
+.site-nav__list a:hover,
+.site-nav__list a[aria-current] {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* Titles and the lines under them */
+
+.page-header,
+.post__header,
+.home-intro {
+  margin-bottom: 2rem;
+}
+
+.page-header__title,
+.post__title,
+.home-intro__title {
+  margin-bottom: 0.2em;
+}
+
+.page-header__lead,
+.post__lead,
+.home-intro__lead {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.home-intro__body {
+  margin-top: 0.9rem;
+}
+
+.page-header__kicker,
+.page-header__count,
+.post-meta,
+.page-footer,
+.post__categories {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.post-meta {
+  padding: 0;
+  list-style: none;
+}
+
+/* Lists of posts: a date column and a title */
+
+.post-list__title {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 400;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+}
+
+.post-card {
+  display: grid;
+  grid-template-columns: 6.2rem 1fr;
+  gap: 0 0.75rem;
+  align-items: baseline;
+  padding-block: 0.2rem;
+  hyphens: manual;
+}
+
+.post-card__date {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.post-card__link {
+  grid-column: 2;
+  text-decoration: none;
+}
+
+.post-card__link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+}
+
+.post-card__draft {
+  grid-column: 2;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.post-list__all,
+.empty {
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+}
+
+.pagination__pages,
+.pagination__step--disabled,
+.pagination .icon {
+  display: none;
+}
+
+.pagination__summary {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Tags are just words here */
+
+.tag-list,
+.term-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.9rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  list-style: none;
+}
+
+.tag {
+  color: var(--muted);
+}
+
+.tag::before {
+  content: "#";
+}
+
+.term-list {
+  font-size: 1rem;
+}
+
+.term-list__link {
+  text-decoration: none;
+}
+
+.term-list__count {
+  margin-left: 0.2em;
+  color: var(--muted);
+  font-size: 0.8rem;
+  vertical-align: super;
+}
+
+/* The article */
+
+.content .heading-anchor {
+  margin-left: 0.3em;
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0.5;
+}
+
+.content > :last-child {
+  margin-bottom: 0;
+}
+
+.content img,
+.content svg,
+.content video,
+.content iframe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.content figure {
+  margin-inline: 0;
+}
+
+.content figcaption {
+  margin-top: 0.5em;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.content blockquote {
+  margin-inline: 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--rule);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.content hr {
+  width: 30%;
+  margin: 2.5em auto;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.content ul,
+.content ol {
+  padding-left: 1.3em;
+}
+
+.content li + li {
+  margin-top: 0.3em;
+}
+
+.content .task-list-item {
+  list-style: none;
+  margin-left: -1.3em;
+}
+
+.content .task-list-item input {
+  margin-right: 0.4em;
+}
+
+.content dt {
+  font-weight: 600;
+}
+
+.content dd {
+  margin: 0 0 0.6em 1.3em;
+}
+
+code,
+kbd,
+pre {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  font-variant-numeric: normal;
+  hyphens: none;
+}
+
+:not(pre) > code {
+  padding: 0.05em 0.3em;
+  background: var(--code-bg);
+}
+
+pre {
+  overflow-x: auto;
+  padding: 0.8rem 1rem;
+  background: var(--code-bg);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.highlight {
+  margin-bottom: 1.1em;
+}
+
+.highlight pre {
+  margin: 0;
+}
+
+/* The highlighter's line-number layout is a table; keep it out of the way
+   of the table rules further down. */
+.content .highlight table {
+  display: table;
+  width: 100%;
+  border-spacing: 0;
+}
+
+.content .highlight td {
+  padding: 0;
+  border: 0;
+}
+
+.content .highlight td.code {
+  max-width: 0;
+}
+
+pre .lineno {
+  display: inline-block;
+  min-width: 2em;
+  margin-right: 1em;
+  color: var(--muted);
+  text-align: right;
+  user-select: none;
+}
+
+pre .line.hl {
+  display: inline-block;
+  min-width: 100%;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums lining-nums;
+  hyphens: manual;
+}
+
+.content th,
+.content td {
+  padding: 0.3rem 0.9rem 0.3rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content th {
+  border-bottom-color: var(--text);
+  font-weight: 600;
+}
+
+/* Admonitions lose their colours and become indented notes. */
+.content .admonition,
+.content .note,
+.content details {
+  margin-bottom: 1.1em;
+  padding: 0.1rem 0 0.1rem 1.1rem;
+  border-left: 2px solid var(--accent);
+  font-size: 0.92rem;
+}
+
+.content .admonition > :last-child,
+.content .note > :last-child {
+  margin-bottom: 0;
+}
+
+.content .admonition-title,
+.content summary {
+  margin-bottom: 0.3em;
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+}
+
+.content .footnotes {
+  margin-top: 3rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.content .footnote-ref a,
+.content .footnote-backref {
+  text-decoration: none;
+  font-variant-numeric: lining-nums;
+}
+
+/* Archive pages from the archives plugin: the same two columns as a list
+   of posts */
+
+.content .archive__list {
+  padding: 0;
+  list-style: none;
+}
+
+.content .archive__list time {
+  display: inline-block;
+  width: 4.5em;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.content .archive__years,
+.content .series-index small {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+/* Bits of the post layout */
+
+.toc,
+.series,
+.related,
+.subsections {
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.toc__title,
+.related__title,
+.series__title {
+  margin: 0 0 0.3rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 400;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+}
+
+.toc ul,
+.related__list,
+.plain-list,
+.subsections__list {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.series__item--current {
+  font-weight: 600;
+}
+
+.post__footer {
+  margin-top: 2.5rem;
+}
+
+.post-after {
+  margin-top: 2.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.post-nav__link {
+  flex: 1;
+  text-decoration: none;
+}
+
+.post-nav__link--next {
+  text-align: right;
+}
+
+.post-nav__label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.related {
+  margin-top: 2rem;
+}
+
+.related__date,
+.plain-list__date {
+  margin-left: 0.4em;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.icon {
+  display: none;
+}
+
+/* Search page and 404, both inherited templates.
+   TODO: the 404 page is only tidied up, not designed. */
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-form__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.button {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--text);
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.search-status {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.search-results {
+  padding: 0;
+  list-style: none;
+}
+
+.search-result {
+  margin-bottom: 1.1rem;
+}
+
+.search-result__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.search-result__url {
+  display: none;
+}
+
+.search-result__summary {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.search-result mark {
+  background: none;
+  color: inherit;
+  font-weight: 600;
+}
+
+.not-found__code {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+.not-found__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 26em) {
+  .post-card {
+    grid-template-columns: 1fr;
+  }
+
+  .post-card__link,
+  .post-card__draft {
+    grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

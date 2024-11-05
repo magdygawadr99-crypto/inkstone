@@ -1,0 +1,63 @@
+<!doctype html>
+{#
+  paper replaces the page skeleton but keeps the block names of the default
+  theme (title, head, stylesheets, custom_css, head_extra, header, main,
+  content, footer, scripts), so index.html, page.html, posts/page.html and the
+  rest are inherited untouched and still slot in.
+#}
+<html lang="{{ site.language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% if page.kind != "home" and page.title %}{{ page.title }} — {% endif %}{{ site.title }}{% endblock %}</title>
+  {% block head %}
+  {% include "partials/head.html" %}
+  {% endblock %}
+  {% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/paper.css') }}">
+  {% if config.markdown.highlight %}
+  <link rel="stylesheet" href="{{ asset('css/highlight.css') }}">
+  {% endif %}
+  {# print.css is not in this theme; it is found in the parent's static/. #}
+  <link rel="stylesheet" href="{{ asset('css/print.css') }}" media="print">
+  {% endblock %}
+  {% block custom_css %}
+  {% if config.params.custom_css %}
+  {% for href in config.params.custom_css %}
+  <link rel="stylesheet" href="{{ asset(href) }}">
+  {% endfor %}
+  {% endif %}
+  {% endblock %}
+  {% if config.params.column_width %}
+  <style>:root { --column: {{ config.params.column_width }}; }</style>
+  {% endif %}
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="kind-{{ page.kind }}{% if page.draft %} is-draft{% endif %}">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="sheet">
+    {% block header %}
+    {% include "partials/header.html" %}
+    {% endblock %}
+
+    <main id="main" class="site-main" tabindex="-1">
+      {# No .container here: the sheet is the column. #}
+      {% block main %}
+      {% block content %}{% endblock %}
+      {% endblock %}
+    </main>
+
+    {% block footer %}
+    {% include "partials/footer.html" %}
+    {% endblock %}
+  </div>
+
+  {# The only script paper loads, and only where search is switched on. #}
+  {% block scripts %}
+  {% if config.search.enabled %}
+  <script src="{{ asset('js/search-ui.js') }}" defer></script>
+  {% endif %}
+  {% endblock %}
+</body>
+</html>

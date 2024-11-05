@@ -1,0 +1,14 @@
+{% import "partials/macros.html" as m %}
+{#
+  The default theme shows a card with summary and tags. Here a post in a
+  list is one line: date, then title. Expects `post`, like the original.
+#}
+<article class="post-card h-entry">
+  {% if post.date %}
+  {{ m.format_date(post.date, config.params.date_format, "post-card__date dt-published") }}
+  {% endif %}
+  <a class="post-card__link u-url p-name" href="{{ url_for(post.url) }}">{{ post.title }}</a>
+  {% if post.draft %}
+  <span class="post-card__draft">(draft)</span>
+  {% endif %}
+</article>

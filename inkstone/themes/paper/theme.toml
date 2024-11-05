@@ -1,0 +1,19 @@
+name = "paper"
+description = "One narrow column in a serif face and not much else. Built on the default theme."
+version = "0.2.0"
+license = "MIT"
+
+# Templates and static files that are not in this directory come from the
+# parent theme. paper only replaces the page skeleton, four partials and the
+# stylesheet; every other template is the default one.
+inherit = "default"
+
+# Merged over the default theme's params, and under the site's own.
+[params]
+show_toc = false
+show_breadcrumbs = false
+show_theme_toggle = false
+date_format = "%Y-%m-%d"
+
+# Width of the text column. Anything CSS accepts as a length.
+column_width = "34rem"
