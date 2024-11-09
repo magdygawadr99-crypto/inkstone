@@ -104,6 +104,7 @@ name = "Me"
 | `inkstone new post TITLE` | new post with front matter filled in |
 | `inkstone build` | build into `public/` |
 | `inkstone serve` | build, serve, watch, reload |
+| `inkstone check` | look for broken internal links and front matter problems |
 | `inkstone list` | list content (`--drafts`, `--tag`, `--format json`) |
 | `inkstone config` | show the resolved configuration |
 | `inkstone clean` | remove output and cache |

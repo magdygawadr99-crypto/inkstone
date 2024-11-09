@@ -92,6 +92,7 @@ def build_parser() -> Parser:
     # imported here so that `import inkstone.cli.parser` stays cheap
     from . import (
         build,
+        check,
         clean,
         config_cmd,
         highlight,
@@ -119,6 +120,7 @@ def build_parser() -> Parser:
         new,
         build,
         serve,
+        check,
         clean,
         config_cmd,
         list_cmd,
