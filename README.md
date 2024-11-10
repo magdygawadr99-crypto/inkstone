@@ -117,6 +117,10 @@ name = "Me"
 - [Configuration](docs/configuration.md)
 - [Plugins](docs/plugins.md)
 - [Markdown reference](docs/markdown.md)
+- [Search](docs/search.md)
+- [Deploying](docs/deploying.md)
+- [How it works inside](docs/internals.md)
+- [FAQ](docs/faq.md)
 
 ## Development
 
