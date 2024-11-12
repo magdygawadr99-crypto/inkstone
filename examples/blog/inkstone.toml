@@ -13,6 +13,7 @@ plugins = [
   "series",
   "related",
   "archives",
+  "redirects",
   "external_links",
   "footnote_previews",
 ]
