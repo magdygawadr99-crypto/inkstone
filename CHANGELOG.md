@@ -2,6 +2,17 @@
 
 Not every commit, just what you would notice as a user.
 
+## 0.6.1 (2024-11-16)
+
+- New command: `inkstone check`. Finds broken internal links, missing
+  images, missing anchors and front matter problems. `--external` also
+  tries the links that leave the site.
+- New plugin: `redirects`, for `aliases:` in front matter and a table of
+  old addresses in the config.
+- Second built-in theme, `paper`, which inherits from the default one.
+- Fixed: `git_dates` ran one git process per page. It now asks once.
+- Fixed: 404 page was missing when `content/404.md` did not exist.
+
 ## 0.6.0 (2024-10-26)
 
 - Search. The build writes `search-index.json` and the default theme has a
