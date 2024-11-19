@@ -123,7 +123,7 @@ def feed_entry(site, page):
     full = bool(config.feeds.full_content)
     image = page.params.get("image")
     return FeedEntry(
-        id=url_join(config.base_url, page.url),
+        id=page.permalink,
         title=page.title,
         url=page.permalink,
         published=page.date,
