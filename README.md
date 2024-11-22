@@ -155,6 +155,16 @@ from inkstone.markdown import render
 print(render("# hi\n\nsome *text*"))
 ```
 
+## Known limitations
+
+- The Markdown parser follows CommonMark closely but is not 100% spec
+  compliant; the odd corner of nested lists and HTML blocks differs.
+- `yamlite` is a subset. No complex keys, no custom tags.
+- The JS minifier only strips whitespace and comments. It never renames
+  anything, on purpose.
+- No image resizing. That needs Pillow or similar and I would rather keep the
+  dependency count at zero; inkstone only reads image dimensions.
+
 ## License
 
 MIT, see [LICENSE](LICENSE).
