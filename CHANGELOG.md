@@ -2,6 +2,16 @@
 
 Not every commit, just what you would notice as a user.
 
+## 0.6.2 (2024-11-23)
+
+- Feed entry ids no longer change when `base_url` gains or loses a trailing
+  slash. Readers were showing every post as new after a config edit.
+- `inkstone check` reports the source file for a broken link, not only the
+  output file.
+- `redirects`: an alias that collides with a real page is skipped with a
+  warning instead of overwriting the page.
+- The draft banner no longer ends up in feeds.
+
 ## 0.6.1 (2024-11-16)
 
 - New command: `inkstone check`. Finds broken internal links, missing
